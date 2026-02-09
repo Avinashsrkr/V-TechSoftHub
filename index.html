@@ -3,194 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-TechSoft | Innovation Hub</title>
+    <title>V-TechSoft | Digital Automation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    
     <style>
         /* --- RESET & CORE --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         
         :root {
-            --bg-dark: #020c1b;
-            --bg-card: #0a192f;
-            --neon-blue: #64ffda;
-            --neon-purple: #bd34fe;
-            --gold: #ffd700; /* For Bhagya Aapka */
+            --bg-dark: #050a14;
+            --bg-card: #0b162c;
+            --neon-blue: #00f3ff;
+            --neon-green: #0aff0a; /* For counter/status */
+            --gold: #ffd700;
             --text-main: #e6f1ff;
             --text-muted: #8892b0;
+            --font-digital: 'Orbitron', sans-serif; /* Sci-Fi Font */
+            --font-tech: 'Rajdhani', sans-serif; /* Clean Tech Font */
         }
 
-        body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
-
-        /* --- NEW LOGO STYLE --- */
-        .brand-container { display: flex; align-items: center; gap: 10px; }
-        .logo-icon {
-            width: 40px; height: 40px;
-            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-            color: #000; font-weight: 900; font-size: 24px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 8px; clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
-            box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+        body { 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            font-family: var(--font-tech);
+            overflow-x: hidden; 
         }
-        .logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
-        .logo-text span { color: var(--neon-blue); }
 
-        /* --- NAVIGATION --- */
+        /* --- NAVIGATION (DIGITAL HUD STYLE) --- */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; position: fixed; width: 100%; top: 0;
-            background: rgba(2, 12, 27, 0.95); backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(100, 255, 218, 0.1); z-index: 1000;
+            padding: 10px 30px; position: fixed; width: 100%; top: 0;
+            background: rgba(5, 10, 20, 0.95); 
+            border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.1);
         }
-        
-        .nav-links { display: flex; gap: 25px; }
-        .nav-links a { text-decoration: none; color: var(--text-main); transition: 0.3s; font-size: 0.9rem; }
-        .nav-links a:hover { color: var(--neon-blue); }
 
-        /* --- ADSENSE PLACEHOLDER --- */
-        .ad-banner {
-            width: 100%; max-width: 728px; height: 90px;
-            background: #112240; border: 1px dashed #333;
-            margin: 20px auto; display: flex; align-items: center; justify-content: center;
-            color: #555; font-size: 0.8rem; letter-spacing: 2px;
-        }
+        /* DIGITAL LOGO */
+        .logo-container { font-family: var(--font-digital); font-size: 1.8rem; font-weight: 700; letter-spacing: 2px; }
+        .logo-container span { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+        .cursor { animation: blink 1s infinite; color: var(--neon-green); }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* HEADER RIGHT INFO (Clock & Counter) */
+        .header-info { text-align: right; font-family: var(--font-digital); font-size: 0.8rem; }
+        .clock { color: var(--neon-blue); font-size: 1.1rem; letter-spacing: 2px; text-shadow: 0 0 5px var(--neon-blue); }
+        .visitor-counter { color: var(--text-muted); margin-top: 2px; font-size: 0.75rem; }
+        .visitor-count { color: var(--neon-green); font-weight: bold; }
 
         /* --- HERO SECTION --- */
         .hero {
-            min-height: 90vh; display: flex; flex-direction: column;
+            min-height: 95vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            padding: 100px 20px 50px; position: relative;
-            background: radial-gradient(circle at 50% 50%, #112240 0%, #020c1b 70%);
+            padding: 120px 20px 50px;
+            background: radial-gradient(circle at 50% 50%, #112240 0%, #050a14 80%);
+            position: relative;
         }
 
-        .hero h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
+        /* Animated Grid Background */
+        .hero::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1;
+        }
+
+        .hero h1 { 
+            font-family: var(--font-digital); font-size: 3.5rem; 
+            line-height: 1.2; margin-bottom: 20px; text-transform: uppercase;
+        }
         .hero h1 span { color: var(--neon-blue); }
-        .hero p { max-width: 600px; color: var(--text-muted); font-size: 1.2rem; margin-bottom: 30px; }
-
-        .cta-btn {
-            padding: 12px 30px; border: 1px solid var(--neon-blue); color: var(--neon-blue);
-            background: transparent; border-radius: 4px; cursor: pointer; transition: 0.3s;
-            font-weight: 600; text-decoration: none; display: inline-block;
-        }
-        .cta-btn:hover { background: rgba(100, 255, 218, 0.1); transform: translateY(-3px); }
-
-        /* --- PRODUCTS & WORK SECTION --- */
-        .section-title { font-size: 2rem; margin-bottom: 50px; text-align: center; }
-        .section-title::after {
-            content: ""; display: block; width: 60px; height: 3px;
-            background: var(--neon-blue); margin: 10px auto 0;
-        }
-
-        .products { padding: 50px 5%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
+        .hero p { 
+            font-size: 1.3rem; max-width: 700px; color: var(--text-muted); 
+            margin-bottom: 40px; border-left: 3px solid var(--neon-blue); padding-left: 15px;
+        }
+
+        /* --- ADSENSE BOX --- */
+        .ad-space {
+            width: 100%; max-width: 728px; height: 90px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed #333; margin: 20px auto;
+            display: flex; align-items: center; justify-content: center;
+            color: #444; font-family: var(--font-digital); letter-spacing: 1px;
+        }
+
+        /* --- PRODUCTS SECTION --- */
+        .products { padding: 80px 5%; }
+        .section-header { 
+            text-align: center; margin-bottom: 60px; font-family: var(--font-digital); 
+            color: var(--neon-blue); text-transform: uppercase; letter-spacing: 3px;
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+
         .card {
-            background: var(--bg-card); padding: 30px; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
-            display: flex; flex-direction: column; justify-content: space-between;
+            background: rgba(11, 22, 44, 0.8); border: 1px solid rgba(0, 243, 255, 0.1);
+            padding: 30px; border-radius: 8px; position: relative; overflow: hidden;
+            transition: 0.4s; box-shadow: 0 10px 30px -15px #000;
         }
-        .card:hover { transform: translateY(-7px); border-color: var(--neon-blue); box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7); }
         
-        .card h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--text-main); }
-        .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
-        
-        .tech-tags { display: flex; gap: 10px; font-size: 0.8rem; color: var(--neon-blue); margin-bottom: 20px; font-family: monospace; }
+        .card:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--neon-blue); 
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2); 
+        }
 
-        /* SPECIAL CARD FOR BHAGYA AAPKA */
-        .card.featured {
+        .card h3 { font-family: var(--font-digital); font-size: 1.5rem; margin-bottom: 10px; color: white; }
+        .card p { color: var(--text-muted); line-height: 1.6; font-size: 1.1rem; margin-bottom: 20px; }
+
+        /* FEATURED CARD (GOLD) */
+        .card.gold-featured {
             border: 1px solid var(--gold);
-            background: linear-gradient(145deg, #0a192f, #1a1500);
-            position: relative; overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
         }
-        .card.featured::before {
-            content: "COMING SOON"; position: absolute; top: 15px; right: -30px;
-            background: var(--gold); color: #000; padding: 5px 40px;
-            transform: rotate(45deg); font-size: 0.7rem; font-weight: bold;
+        .card.gold-featured h3 { color: var(--gold); text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+        .card.gold-featured:hover { box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
+
+        .btn-gold {
+            width: 100%; padding: 12px; background: var(--gold); color: black;
+            font-family: var(--font-digital); font-weight: bold; border: none;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.3s; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
         }
-        .card.featured h3 { color: var(--gold); }
+        .btn-gold:hover { background: #fff; box-shadow: 0 0 20px var(--gold); }
+
+        .tech-badge {
+            background: rgba(0, 243, 255, 0.1); color: var(--neon-blue);
+            padding: 5px 10px; font-size: 0.8rem; border-radius: 4px;
+            font-family: var(--font-digital); display: inline-block; margin-bottom: 15px;
+        }
+
+        /* --- FOOTER & CREDIT --- */
+        footer {
+            margin-top: 80px; padding: 40px; text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: #02050a;
+        }
         
-        .gold-btn {
-            background: var(--gold); color: #000; border: none; padding: 10px 20px;
-            border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s;
+        .credit-box {
+            display: inline-block; padding: 10px 20px;
+            border: 1px solid var(--neon-blue);
+            border-radius: 50px; background: rgba(0, 243, 255, 0.05);
+            margin-top: 20px;
         }
-        .gold-btn:hover { background: #fff; box-shadow: 0 0 15px var(--gold); }
+        .credit-text { font-family: var(--font-tech); font-size: 1rem; color: #fff; }
+        .credit-text span { color: var(--gold); font-weight: bold; }
 
-        /* --- FOOTER --- */
-        footer { padding: 30px; text-align: center; border-top: 1px solid #222; color: #666; font-size: 0.8rem; margin-top: 50px; }
-
-        /* MOBILE RESPONSIVE */
+        /* MOBILE FIXES */
         @media(max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
+            .header-info { display: none; } /* Hide clock on mobile to save space */
+            .hero h1 { font-size: 2rem; }
+            nav { padding: 15px; }
         }
+
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="brand-container">
-            <div class="logo-icon">V</div>
-            <div class="logo-text">V-Tech<span>Soft</span></div>
+        <div class="logo-container">
+            V-TECH<span>SOFT</span><span class="cursor">_</span>
         </div>
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#products">Our Products</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
+
+        <div class="header-info">
+            <div class="clock" id="digital-clock">00:00:00</div>
+            <div class="visitor-counter">LIVE VISITORS: <span class="visitor-count" id="visitor-count">842</span></div>
         </div>
     </nav>
 
-    <section class="hero" id="home">
-        <h3>Software & App Development</h3>
-        <h1>We Build The <br> <span>Next Big Thing.</span></h1>
-        <p>From V-Monitor's analytics to V-Call's secure communication, we create digital solutions that empower businesses.</p>
+    <section class="hero">
+        <div class="tech-badge">SYSTEM ONLINE</div>
+        <h1>Automation <br> <span>Redefined.</span></h1>
+        <p>Advanced software solutions for modern broadcasting and enterprise needs.</p>
         
-        <div class="ad-banner">
-            [ Google AdSense Banner 728x90 ]
-        </div>
-
-        <a href="#products" class="cta-btn">Explore Projects</a>
+        <div class="ad-space">[ AdSense Banner 728x90 ]</div>
     </section>
 
-    <section class="products" id="products">
-        <h2 class="section-title">Featured Products</h2>
+    <section class="products">
+        <h2 class="section-header">/// SYSTEM MODULES</h2>
+        
         <div class="grid">
             
             <div class="card">
-                <div>
-                    <div class="tech-tags"><span>#Analytics</span> <span>#Security</span></div>
-                    <h3>V-Monitor</h3>
-                    <p>Advanced system monitoring and real-time analytics dashboard. Keep track of your server health and user activity with our AI-driven insights engine.</p>
-                </div>
-                <a href="#" class="cta-btn" style="font-size: 0.8rem; text-align: center;">View Details</a>
+                <div class="tech-badge">BROADCAST CONTROL</div>
+                <h3>V-Monitor</h3>
+                <p>The ultimate automation tool for <strong>vMix RunOrder</strong>. Control your broadcast schedule with precision timing, auto-trigger graphics, and manage rundown sequences seamlessly without manual errors.</p>
             </div>
 
             <div class="card">
-                <div>
-                    <div class="tech-tags"><span>#VoIP</span> <span>#Communication</span></div>
-                    <h3>V-Call</h3>
-                    <p>Secure, high-quality voice and video calling solution for enterprises. Crystal clear audio with end-to-end encryption for privacy.</p>
-                </div>
-                <a href="#" class="cta-btn" style="font-size: 0.8rem; text-align: center;">View Details</a>
+                <div class="tech-badge">SECURE COMMS</div>
+                <h3>V-Call</h3>
+                <p>Experience crystal-clear, low-latency communication designed for professionals. Featuring end-to-end encryption and HD video stability, V-Call ensures your team stays connected, no matter where they are.</p>
             </div>
 
-            <div class="card featured">
-                <div>
-                    <div class="tech-tags" style="color: var(--gold);"><span>#Astrology</span> <span>#Future</span></div>
-                    <h3>Bhagya Aapka</h3>
-                    <p>Discover your destiny. An upcoming revolutionary platform combining Vedic astrology with modern AI to guide your life path.</p>
-                </div>
-                <button class="gold-btn" onclick="alert('Bhagya Aapka - Coming Soon! Redirecting to preview...')">Visit App & Website</button>
+            <div class="card gold-featured">
+                <div class="tech-badge" style="color: var(--gold); background: rgba(255,215,0,0.1);">COMING SOON</div>
+                <h3>Bhagya Aapka</h3>
+                <p>A revolutionary AI-Astrology platform tailored to guide your future.</p>
+                <button class="btn-gold" onclick="alert('Redirecting to Bhagya Aapka App Store...')">
+                    OPEN APP & WEBSITE
+                </button>
             </div>
 
         </div>
 
-        <div class="ad-banner" style="max-width: 900px; height: 150px; margin-top: 50px;">
-            [ Google AdSense Responsive Ad ]
-        </div>
+        <div class="ad-space" style="margin-top: 60px;">[ Responsive Ad Area ]</div>
     </section>
 
     <footer>
-        <p>&copy; 2026 V-TechSoft. All Rights Reserved.</p>
+        <p style="color: #666; font-size: 0.9rem;">&copy; 2026 V-TechSoft Systems. All Rights Reserved.</p>
+        
+        <div class="credit-box">
+            <p class="credit-text">Designed & Developed by <span>Avinash</span> ❤️</p>
+        </div>
     </footer>
+
+    <script>
+        // Digital Clock Script
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('digital-clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock(); // Run immediately
+
+        // Fake Visitor Counter Animation (Just for Design Look)
+        let count = 842;
+        const counterElement = document.getElementById('visitor-count');
+        
+        // Randomly increase counter every few seconds to look "Live"
+        setInterval(() => {
+            if(Math.random() > 0.7) { // 30% chance to increase
+                count++;
+                counterElement.textContent = count;
+                counterElement.style.color = '#fff'; // Flash white
+                setTimeout(() => { counterElement.style.color = '#0aff0a'; }, 200); // Back to green
+            }
+        }, 3000);
+    </script>
 
 </body>
 </html>
