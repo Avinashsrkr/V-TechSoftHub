@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-TechSoft | Innovation Hub</title>
+    <style>
+        /* --- RESET & CORE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; }
+        
+        :root {
+            --bg-dark: #020c1b;
+            --bg-card: #0a192f;
+            --neon-blue: #64ffda;
+            --neon-purple: #bd34fe;
+            --gold: #ffd700; /* For Bhagya Aapka */
+            --text-main: #e6f1ff;
+            --text-muted: #8892b0;
+        }
+
+        body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
+
+        /* --- NEW LOGO STYLE --- */
+        .brand-container { display: flex; align-items: center; gap: 10px; }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: #000; font-weight: 900; font-size: 24px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+        }
+        .logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+        .logo-text span { color: var(--neon-blue); }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; position: fixed; width: 100%; top: 0;
+            background: rgba(2, 12, 27, 0.95); backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1); z-index: 1000;
+        }
+        
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { text-decoration: none; color: var(--text-main); transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--neon-blue); }
+
+        /* --- ADSENSE PLACEHOLDER --- */
+        .ad-banner {
+            width: 100%; max-width: 728px; height: 90px;
+            background: #112240; border: 1px dashed #333;
+            margin: 20px auto; display: flex; align-items: center; justify-content: center;
+            color: #555; font-size: 0.8rem; letter-spacing: 2px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 90vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 100px 20px 50px; position: relative;
+            background: radial-gradient(circle at 50% 50%, #112240 0%, #020c1b 70%);
+        }
+
+        .hero h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
+        .hero h1 span { color: var(--neon-blue); }
+        .hero p { max-width: 600px; color: var(--text-muted); font-size: 1.2rem; margin-bottom: 30px; }
+
+        .cta-btn {
+            padding: 12px 30px; border: 1px solid var(--neon-blue); color: var(--neon-blue);
+            background: transparent; border-radius: 4px; cursor: pointer; transition: 0.3s;
+            font-weight: 600; text-decoration: none; display: inline-block;
+        }
+        .cta-btn:hover { background: rgba(100, 255, 218, 0.1); transform: translateY(-3px); }
+
+        /* --- PRODUCTS & WORK SECTION --- */
+        .section-title { font-size: 2rem; margin-bottom: 50px; text-align: center; }
+        .section-title::after {
+            content: ""; display: block; width: 60px; height: 3px;
+            background: var(--neon-blue); margin: 10px auto 0;
+        }
+
+        .products { padding: 50px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .card {
+            background: var(--bg-card); padding: 30px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .card:hover { transform: translateY(-7px); border-color: var(--neon-blue); box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7); }
+        
+        .card h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--text-main); }
+        .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+        
+        .tech-tags { display: flex; gap: 10px; font-size: 0.8rem; color: var(--neon-blue); margin-bottom: 20px; font-family: monospace; }
+
+        /* SPECIAL CARD FOR BHAGYA AAPKA */
+        .card.featured {
+            border: 1px solid var(--gold);
+            background: linear-gradient(145deg, #0a192f, #1a1500);
+            position: relative; overflow: hidden;
+        }
+        .card.featured::before {
+            content: "COMING SOON"; position: absolute; top: 15px; right: -30px;
+            background: var(--gold); color: #000; padding: 5px 40px;
+            transform: rotate(45deg); font-size: 0.7rem; font-weight: bold;
+        }
+        .card.featured h3 { color: var(--gold); }
+        
+        .gold-btn {
+            background: var(--gold); color: #000; border: none; padding: 10px 20px;
+            border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s;
+        }
+        .gold-btn:hover { background: #fff; box-shadow: 0 0 15px var(--gold); }
+
+        /* --- FOOTER --- */
+        footer { padding: 30px; text-align: center; border-top: 1px solid #222; color: #666; font-size: 0.8rem; margin-top: 50px; }
+
+        /* MOBILE RESPONSIVE */
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand-container">
+            <div class="logo-icon">V</div>
+            <div class="logo-text">V-Tech<span>Soft</span></div>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#products">Our Products</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <h3>Software & App Development</h3>
+        <h1>We Build The <br> <span>Next Big Thing.</span></h1>
+        <p>From V-Monitor's analytics to V-Call's secure communication, we create digital solutions that empower businesses.</p>
+        
+        <div class="ad-banner">
+            [ Google AdSense Banner 728x90 ]
+        </div>
+
+        <a href="#products" class="cta-btn">Explore Projects</a>
+    </section>
+
+    <section class="products" id="products">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="grid">
+            
+            <div class="card">
+                <div>
+                    <div class="tech-tags"><span>#Analytics</span> <span>#Security</span></div>
+                    <h3>V-Monitor</h3>
+                    <p>Advanced system monitoring and real-time analytics dashboard. Keep track of your server health and user activity with our AI-driven insights engine.</p>
+                </div>
+                <a href="#" class="cta-btn" style="font-size: 0.8rem; text-align: center;">View Details</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="tech-tags"><span>#VoIP</span> <span>#Communication</span></div>
+                    <h3>V-Call</h3>
+                    <p>Secure, high-quality voice and video calling solution for enterprises. Crystal clear audio with end-to-end encryption for privacy.</p>
+                </div>
+                <a href="#" class="cta-btn" style="font-size: 0.8rem; text-align: center;">View Details</a>
+            </div>
+
+            <div class="card featured">
+                <div>
+                    <div class="tech-tags" style="color: var(--gold);"><span>#Astrology</span> <span>#Future</span></div>
+                    <h3>Bhagya Aapka</h3>
+                    <p>Discover your destiny. An upcoming revolutionary platform combining Vedic astrology with modern AI to guide your life path.</p>
+                </div>
+                <button class="gold-btn" onclick="alert('Bhagya Aapka - Coming Soon! Redirecting to preview...')">Visit App & Website</button>
+            </div>
+
+        </div>
+
+        <div class="ad-banner" style="max-width: 900px; height: 150px; margin-top: 50px;">
+            [ Google AdSense Responsive Ad ]
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 V-TechSoft. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
+
