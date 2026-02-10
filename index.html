@@ -21,7 +21,6 @@
             --font-digital: 'Orbitron', sans-serif;
             --font-tech: 'Rajdhani', sans-serif;
             --font-code: 'Share Tech Mono', monospace;
-            --font-hindi: 'Noto Sans Devanagari', sans-serif;
         }
 
         body { 
@@ -94,23 +93,11 @@
         .clock-container { color: var(--neon-blue); font-size: 1rem; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; font-weight: bold; justify-content: flex-end; }
         .visitor-counter { color: var(--text-muted); margin-top: 4px; font-size: 0.75rem; font-family: var(--font-tech); letter-spacing: 1px; }
 
-        /* --- RASHIFAL SCROLL (NEW) --- */
-        .rashifal-strip {
-            position: fixed; top: 80px; width: 100%; background: rgba(0,0,0,0.8);
-            border-bottom: 1px solid rgba(0,243,255,0.2); z-index: 900;
-            overflow: hidden; white-space: nowrap; padding: 5px 0;
-        }
-        .rashifal-text {
-            display: inline-block; font-family: var(--font-hindi); color: #fff; font-size: 0.9rem;
-            animation: scrollText 40s linear infinite; padding-left: 100%;
-        }
-        @keyframes scrollText { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-
         /* --- HERO --- */
         .hero {
             min-height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            padding: 140px 20px 80px; position: relative;
+            padding: 120px 20px 80px; position: relative;
         }
 
         .hero h1 { 
@@ -185,7 +172,6 @@
         /* MOBILE FIXES */
         @media(max-width: 768px) {
             .header-info { display: none; }
-            .rashifal-strip { top: 70px; }
             .hero { padding-top: 120px; }
             .dashboard-container { flex-direction: column; }
             .terminal-box { height: 120px; }
@@ -212,12 +198,6 @@
             <div class="visitor-counter">SYSTEM STATUS: <span style="color:#0f0">ONLINE</span> | VISITORS: <span id="visitor-count" style="color:#0f0">842</span></div>
         </div>
     </nav>
-
-    <div class="rashifal-strip">
-        <div class="rashifal-text">
-            || आज का राशिफल: 10 फरवरी 2026 | विक्रम संवत 2082 | मंगलवार || मेष: शुभ समाचार | वृष: धन लाभ | मिथुन: यात्रा योग | कर्क: कार्य सिद्धि | सिंह: मान-सम्मान | कन्या: निवेश से लाभ | तुला: पारिवारिक सुख | वृश्चिक: सावधानी बरतें | धनु: शिक्षा में सफलता | मकर: व्यापार वृद्धि | कुंभ: स्वास्थ्य लाभ | मीन: आध्यात्मिक शांति || V-TechSoft Updates: V-Monitor 4.0 Released...
-        </div>
-    </div>
 
     <section class="hero">
         <div style="font-family: var(--font-digital); color: var(--neon-blue); margin-bottom: 20px; letter-spacing: 2px;">ENTERPRISE AUTOMATION v4.0</div>
@@ -306,14 +286,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // 1. CUSTOM CURSOR
+            // CUSTOM CURSOR
             const cursor = document.getElementById('cursor');
             document.addEventListener('mousemove', (e) => {
                 cursor.style.left = e.clientX + 'px';
                 cursor.style.top = e.clientY + 'px';
             });
 
-            // 2. CLOCK & DATE FIX
+            // CLOCK
             function updateClock() {
                 const now = new Date();
                 const timeString = now.toLocaleTimeString('en-US', { hour12: false });
@@ -327,7 +307,7 @@
             setInterval(updateClock, 1000);
             updateClock();
 
-            // 3. TYPEWRITER EFFECT
+            // TYPEWRITER
             const text = "FUTURE PROOF AUTOMATION";
             const typeWriterElement = document.getElementById('typewriter');
             let i = 0;
@@ -343,7 +323,7 @@
                 setTimeout(typeWriter, 500);
             }
 
-            // 4. TERMINAL ANIMATION
+            // TERMINAL
             const terminal = document.getElementById('terminal-content');
             if(terminal) {
                 const logs = [
@@ -361,7 +341,6 @@
                         terminal.appendChild(p);
                         logIndex++;
                     } else {
-                        // Keep adding random stats
                         const randomLogs = ["> Syncing...", "> Ping: 22ms", "> Optimizing...", "> Data: Stable"];
                         const p = document.createElement('p');
                         p.innerText = randomLogs[Math.floor(Math.random() * randomLogs.length)];
@@ -373,7 +352,7 @@
                 setInterval(addLog, 1500);
             }
 
-            // 5. STATS ANIMATION
+            // STATS
             setInterval(() => {
                 const cpuVal = document.getElementById('cpu-val');
                 if(cpuVal) {
@@ -383,6 +362,5 @@
             }, 2000);
         });
     </script>
-
 </body>
 </html>
