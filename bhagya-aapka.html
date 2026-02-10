@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
 
-        /* --- BACKGROUND ANIMATIONS (SLOW) --- */
+        /* --- BACKGROUND ANIMATIONS (SUPER SLOW) --- */
         .chakra-bg {
             position: fixed; top: 50%; left: 50%; width: 90vw; height: 90vw;
             border: 1px dashed rgba(255, 153, 51, 0.15); border-radius: 50%;
@@ -66,11 +66,12 @@
             backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 153, 51, 0.2);
         }
 
-        /* --- IMAGE LOGO STYLE --- */
+        /* --- LOGO STYLE --- */
         .logo-container {
             display: flex; align-items: center; text-decoration: none; gap: 15px;
         }
         
+        /* Updated for logo.png */
         .logo-image-spin {
             width: 70px; height: 70px;
             border-radius: 50%;
@@ -98,7 +99,7 @@
         }
         .back-link:hover { background: var(--saffron); color: #000; box-shadow: 0 0 15px var(--saffron); }
 
-        /* --- RASHIFAL BANNER (SUPER SLOW) --- */
+        /* --- RASHIFAL BANNER (SLOW SCROLL) --- */
         .rashifal-banner {
             position: fixed; top: 80px; width: 100%; background: rgba(15, 5, 0, 0.9);
             border-bottom: 1px solid var(--saffron); border-top: 1px solid var(--saffron);
@@ -107,8 +108,7 @@
         .rashifal-content {
             display: inline-block; font-family: var(--font-hindi); color: var(--saffron);
             font-size: 1rem; font-weight: 600; 
-            /* Changed from 45s to 150s for VERY SLOW reading */
-            animation: scrollRashifal 150s linear infinite; 
+            animation: scrollRashifal 150s linear infinite; /* 150s for SLOW reading */
             padding-left: 100%;
         }
         @keyframes scrollRashifal { 
@@ -210,7 +210,7 @@
 
     <nav>
         <a href="index.html" class="logo-container">
-            <img src="YOUR-IMAGE-URL.png" alt="Zodiac Logo" class="logo-image-spin">
+            <img src="logo.png" alt="Zodiac Logo" class="logo-image-spin">
             <div class="logo-text-group">
                 <div class="logo-text-hindi">भाग्य आपका</div>
                 <div class="logo-text-english">BHAGYA AAPKA</div>
