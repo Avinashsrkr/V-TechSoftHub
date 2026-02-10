@@ -55,7 +55,8 @@
             width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--saffron);
             box-shadow: 0 0 20px rgba(255, 153, 51, 0.5); animation: spinLogo 120s linear infinite;
         }
-        .logo-text-hindi { font-family: var(--font-hindi); font-size: 1.4rem; color: var(--gold); font-weight: 700; }
+        .logo-text-group { display: flex; flex-direction: column; }
+        .logo-text-hindi { font-family: var(--font-hindi); font-size: 1.4rem; color: var(--gold); font-weight: 700; line-height: 1; }
         .logo-text-english { font-family: var(--font-divine); font-size: 0.9rem; color: var(--saffron); letter-spacing: 2px; }
         @keyframes spinLogo { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .back-link { 
@@ -63,60 +64,93 @@
             padding: 8px 20px; border-radius: 4px; transition: 0.3s; 
         }
 
+        /* --- RASHIFAL BANNER --- */
+        .rashifal-banner {
+            position: fixed; top: 80px; width: 100%; background: rgba(15, 5, 0, 0.9);
+            border-bottom: 1px solid var(--saffron); border-top: 1px solid var(--saffron);
+            padding: 8px 0; z-index: 90; overflow: hidden; white-space: nowrap;
+        }
+        .rashifal-content {
+            display: inline-block; font-family: var(--font-hindi); color: var(--saffron);
+            font-size: 1rem; font-weight: 600; 
+            animation: scrollRashifal 150s linear infinite; 
+            padding-left: 100%;
+        }
+        @keyframes scrollRashifal { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
         /* --- HERO SECTION --- */
         .hero {
-            min-height: 80vh; display: flex; flex-direction: column;
+            min-height: 85vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            padding: 140px 20px 50px;
+            padding: 160px 20px 50px;
         }
-        h1 { font-family: var(--font-divine); font-size: 3.5rem; color: var(--gold); margin-bottom: 20px; }
+        .om-symbol { font-size: 4rem; color: var(--saffron); margin-bottom: 10px; animation: floatOm 4s ease-in-out infinite; }
+        @keyframes floatOm { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         
-        /* --- KUNDLI CHART UI (North Indian Style) --- */
-        .kundli-section { padding: 50px 5%; text-align: center; }
+        h1 { font-family: var(--font-divine); font-size: 3.5rem; color: var(--gold); margin-bottom: 20px; text-transform: uppercase; }
+        
+        /* KUNDLI CHART UI (North Indian Style) */
         .kundli-container {
-            width: 300px; height: 300px; margin: 0 auto; position: relative;
+            width: 280px; height: 280px; margin: 20px auto; position: relative;
             border: 2px solid var(--gold); background: rgba(0,0,0,0.5);
             display: flex; align-items: center; justify-content: center;
         }
         .kundli-svg { width: 100%; height: 100%; stroke: var(--saffron); stroke-width: 2; fill: none; }
-        .planet { font-size: 0.8rem; fill: var(--text-light); font-family: var(--font-tech); }
+        .planet { font-size: 0.9rem; fill: var(--text-light); font-family: var(--font-tech); font-weight: bold; }
 
-        /* --- ASTROLOGER REGISTRATION FORM --- */
+        /* --- FEATURES GRID (OLD LAYOUT RESTORED) --- */
+        .features { padding: 60px 5%; position: relative; }
+        .section-title { 
+            text-align: center; color: var(--saffron); font-family: var(--font-divine); 
+            font-size: 2.2rem; margin-bottom: 60px; letter-spacing: 2px;
+        }
+        .section-title span { color: var(--text-light); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; }
+        .card {
+            background: var(--card-bg); border: 1px solid rgba(255, 153, 51, 0.2);
+            padding: 40px 30px; border-radius: 12px; text-align: center; transition: 0.4s;
+            position: relative; overflow: hidden; backdrop-filter: blur(5px);
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 0 30px rgba(255, 153, 51, 0.15); }
+        .card-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 10px var(--gold)); }
+        .card h3 { font-family: var(--font-divine); color: var(--saffron); margin-bottom: 15px; font-size: 1.5rem; letter-spacing: 1px; }
+        .card p { font-size: 1rem; color: #ccc; line-height: 1.6; }
+
+        /* --- ASTROLOGER DIRECTORY (NEW) --- */
+        .directory-section { padding: 60px 5%; border-top: 1px solid rgba(255,153,51,0.2); }
+        .astro-card {
+            background: var(--card-bg); border: 1px solid var(--saffron); padding: 25px;
+            text-align: center; border-radius: 10px; transition: 0.3s;
+        }
+        .astro-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(255, 153, 51, 0.2); }
+        .astro-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 15px; object-fit: cover; }
+        .astro-name { color: var(--gold); font-size: 1.4rem; font-family: var(--font-divine); margin-bottom: 5px; }
+        .astro-spec { color: #ccc; font-size: 0.9rem; margin-bottom: 15px; font-family: var(--font-tech); }
+        .btn-profile {
+            padding: 8px 25px; border: 1px solid var(--saffron); background: transparent;
+            color: var(--saffron); cursor: pointer; transition: 0.3s; font-family: var(--font-tech);
+        }
+        .btn-profile:hover { background: var(--saffron); color: black; }
+
+        /* --- REGISTRATION FORM (NEW) --- */
         .register-section {
             background: linear-gradient(to right, #1a0500, #2e0e00);
-            padding: 60px 20px; margin: 50px 0; border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold);
+            padding: 80px 20px; border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold);
         }
         .form-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 30px auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 40px auto 0;
         }
         .astro-input {
-            width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--saffron);
-            color: var(--gold); font-family: var(--font-tech); outline: none;
+            width: 100%; padding: 15px; background: rgba(0,0,0,0.6); border: 1px solid var(--saffron);
+            color: var(--gold); font-family: var(--font-tech); outline: none; font-size: 1rem;
         }
         .full-width { grid-column: span 2; }
         .btn-register {
             grid-column: span 2; padding: 15px; background: var(--gold); color: black;
             font-weight: bold; cursor: pointer; border: none; font-family: var(--font-divine);
-            transition: 0.3s; font-size: 1.1rem;
+            transition: 0.3s; font-size: 1.1rem; margin-top: 10px;
         }
-        .btn-register:hover { box-shadow: 0 0 20px var(--saffron); }
-
-        /* --- ASTROLOGER DIRECTORY (Profiles) --- */
-        .directory-section { padding: 60px 5%; }
-        .astro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .astro-card {
-            background: var(--card-bg); border: 1px solid var(--saffron); padding: 20px;
-            text-align: center; border-radius: 10px; transition: 0.3s;
-        }
-        .astro-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px rgba(255, 153, 51, 0.3); }
-        .astro-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 15px; object-fit: cover; }
-        .astro-name { color: var(--gold); font-size: 1.5rem; font-family: var(--font-divine); margin-bottom: 5px; }
-        .astro-spec { color: #ccc; font-size: 0.9rem; margin-bottom: 15px; }
-        .btn-profile {
-            padding: 8px 20px; border: 1px solid var(--saffron); background: transparent;
-            color: var(--saffron); cursor: pointer; transition: 0.3s;
-        }
-        .btn-profile:hover { background: var(--saffron); color: black; }
+        .btn-register:hover { box-shadow: 0 0 25px var(--saffron); filter: brightness(1.1); }
 
         /* --- FOOTER --- */
         footer { text-align: center; padding: 50px 20px; border-top: 1px solid rgba(255, 153, 51, 0.1); background: #050200; margin-top: 50px; color: #888; }
@@ -125,7 +159,8 @@
             h1 { font-size: 2.2rem; }
             .form-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
-            .kundli-container { width: 250px; height: 250px; }
+            .rashifal-banner { top: 70px; }
+            .logo-image-spin { width: 50px; height: 50px; }
         }
     </style>
 </head>
@@ -145,28 +180,108 @@
         <a href="index.html" class="back-link">← RETURN</a>
     </nav>
 
+    <div class="rashifal-banner">
+        <div class="rashifal-content">
+            || आज का राशिफल: 10 फरवरी 2026 | विक्रम संवत 2082 | मंगलवार || मेष: आज का दिन शुभ है... | वृष: सेहत का ध्यान रखें... | मिथुन: धन लाभ के योग हैं... | कर्क: कार्यक्षेत्र में सफलता मिलेगी... | सिंह: मन प्रसन्न रहेगा... | कन्या: खर्चों पर नियंत्रण रखें... | तुला: संबंध मधुर होंगे... | वृश्चिक: विवाद से बचें... | धनु: नए अवसर मिलेंगे... | मकर: आर्थिक स्थिति मजबूत होगी... | कुंभ: धैर्य बनाए रखें... | मीन: यात्रा के योग हैं... ||
+        </div>
+    </div>
+
     <section class="hero">
-        <div style="font-size: 4rem; color: var(--saffron); margin-bottom: 10px;">ॐ</div>
+        <div class="om-symbol">ॐ</div>
         <h1>Your Cosmic Blueprint</h1>
-        <p style="color: #ccc; max-width: 600px; margin-bottom: 40px;">
-            Advanced AI Kundli Generation & Vedic Marketplace.
+        <p style="color: #ccc; max-width: 600px; margin-bottom: 20px;">
+            Where Ancient Vedic Wisdom meets Modern AI.
         </p>
 
-        <div class="kundli-section">
-            <h3 style="color: var(--gold); margin-bottom: 20px; font-family: var(--font-divine);">// LIVE CHART PREVIEW</h3>
-            <div class="kundli-container">
-                <svg class="kundli-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <rect x="0" y="0" width="100" height="100" />
-                    <line x1="0" y1="0" x2="100" y2="100" />
-                    <line x1="100" y1="0" x2="0" y2="100" />
-                    <line x1="50" y1="0" x2="0" y2="50" />
-                    <line x1="50" y1="0" x2="100" y2="50" />
-                    <line x1="0" y1="50" x2="50" y2="100" />
-                    <line x1="100" y1="50" x2="50" y2="100" />
-                    
-                    <text x="48" y="25" class="planet" text-anchor="middle">Sun</text> <text x="25" y="45" class="planet" text-anchor="middle">Mars</text> <text x="75" y="45" class="planet" text-anchor="middle">Jup</text> <text x="48" y="80" class="planet" text-anchor="middle">Moon</text> </svg>
+        <div class="kundli-container">
+            <svg class="kundli-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <rect x="0" y="0" width="100" height="100" />
+                <line x1="0" y1="0" x2="100" y2="100" />
+                <line x1="100" y1="0" x2="0" y2="100" />
+                <line x1="50" y1="0" x2="0" y2="50" />
+                <line x1="50" y1="0" x2="100" y2="50" />
+                <line x1="0" y1="50" x2="50" y2="100" />
+                <line x1="100" y1="50" x2="50" y2="100" />
+                <text x="48" y="25" class="planet" text-anchor="middle">Sun</text>
+                <text x="25" y="45" class="planet" text-anchor="middle">Mars</text>
+                <text x="75" y="45" class="planet" text-anchor="middle">Jup</text>
+                <text x="48" y="80" class="planet" text-anchor="middle">Moon</text>
+            </svg>
+        </div>
+        <p style="color: var(--saffron); font-size: 0.8rem;">*Live Lagna Chart Preview</p>
+    </section>
+
+    <section class="features" id="services">
+        <h2 class="section-title">/// THE <span>DIVINE MODULES</span></h2>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">✨</div>
+                <h3>Vedic Kundli</h3>
+                <p>Complete birth chart analysis (Janampatri) using ancient planetary positions.</p>
             </div>
-            <p style="margin-top: 15px; color: var(--saffron); font-size: 0.9rem;">*Sample Lagna Chart</p>
+            <div class="card">
+                <div class="card-icon">🔢</div>
+                <h3>Ank Jyotish</h3>
+                <p>Unlock the power of your numbers. Numerology predictions for career and luck.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">❤️</div>
+                <h3>Kundli Milan</h3>
+                <p>36 Guna matchmaking. Detailed compatibility reports for partnerships.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📕</div>
+                <h3>Lal Kitab</h3>
+                <p>Simple yet powerful remedies (Upay) to solve life's complex problems.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📜</div>
+                <h3>Bhrigu Samhita</h3>
+                <p>Insights from the oldest astrological text. Discover what sages wrote about you.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">✋</div>
+                <h3>AI Hastrekha</h3>
+                <p>Scan your palm using our App. AI analyzes lines to predict your fortune.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⏳</div>
+                <h3>Hora Muhurat</h3>
+                <p>Find the most auspicious time (Shubh Muhurat) to start new work.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏠</div>
+                <h3>Vastu Shastra</h3>
+                <p>AI-guided energy balancing for your home and office to attract wealth.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="directory-section">
+        <h2 class="section-title">/// VERIFIED <span>GURUS</span></h2>
+        <div class="grid astro-grid">
+            <div class="astro-card">
+                <img src="https://via.placeholder.com/100/FFD700/000000?text=GURU" alt="Guru" class="astro-img">
+                <div class="astro-name">Acharya Ujjwal Tiwari</div>
+                <div class="astro-spec">Vedic Expert | 15 Yrs Exp</div>
+                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐⭐ (5.0)</div>
+                <button class="btn-profile">VIEW PROFILE</button>
+            </div>
+            <div class="astro-card">
+                <img src="https://via.placeholder.com/100/FF9933/000000?text=SHASTRI" alt="Guru" class="astro-img">
+                <div class="astro-name">Dr. A. K. Mishra</div>
+                <div class="astro-spec">Nadi Jyotish | 22 Yrs Exp</div>
+                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐⭐ (4.9)</div>
+                <button class="btn-profile">VIEW PROFILE</button>
+            </div>
+            <div class="astro-card">
+                <img src="https://via.placeholder.com/100/C0C0C0/000000?text=TAROT" alt="Guru" class="astro-img">
+                <div class="astro-name">Ms. Riya Sharma</div>
+                <div class="astro-spec">Tarot & Healing | 8 Yrs Exp</div>
+                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐☆ (4.7)</div>
+                <button class="btn-profile">VIEW PROFILE</button>
+            </div>
         </div>
     </section>
 
@@ -194,40 +309,6 @@
 
             <button type="submit" class="btn-register">REGISTER AS ASTROLOGER</button>
         </form>
-    </section>
-
-    <section class="directory-section">
-        <h2 style="text-align: center; color: var(--saffron); font-family: var(--font-divine); margin-bottom: 50px;">
-            /// VERIFIED <span>GURUS</span>
-        </h2>
-
-        <div class="astro-grid">
-            
-            <div class="astro-card">
-                <img src="https://via.placeholder.com/100/FFD700/000000?text=GURU" alt="Guru" class="astro-img">
-                <div class="astro-name">Acharya Ujjwal Tiwari</div>
-                <div class="astro-spec">Vedic Expert | 15 Yrs Exp</div>
-                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐⭐ (5.0)</div>
-                <button class="btn-profile">VIEW PROFILE</button>
-            </div>
-
-            <div class="astro-card">
-                <img src="https://via.placeholder.com/100/FF9933/000000?text=SHASTRI" alt="Guru" class="astro-img">
-                <div class="astro-name">Dr. A. K. Mishra</div>
-                <div class="astro-spec">Nadi Jyotish | 22 Yrs Exp</div>
-                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐⭐ (4.9)</div>
-                <button class="btn-profile">VIEW PROFILE</button>
-            </div>
-
-            <div class="astro-card">
-                <img src="https://via.placeholder.com/100/C0C0C0/000000?text=TAROT" alt="Guru" class="astro-img">
-                <div class="astro-name">Ms. Riya Sharma</div>
-                <div class="astro-spec">Tarot & Healing | 8 Yrs Exp</div>
-                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐☆ (4.7)</div>
-                <button class="btn-profile">VIEW PROFILE</button>
-            </div>
-
-        </div>
     </section>
 
     <footer>
