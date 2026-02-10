@@ -98,6 +98,11 @@
             justify-content: center; align-items: center; text-align: center;
             padding: 140px 20px 80px; position: relative;
         }
+        .tech-badge {
+            background: rgba(0, 243, 255, 0.1); color: var(--neon-blue);
+            padding: 8px 16px; font-size: 0.85rem; border-radius: 4px; border: 1px solid rgba(0,243,255,0.3);
+            font-family: var(--font-digital); display: inline-block; margin-bottom: 25px; font-weight: bold; letter-spacing: 2px;
+        }
         .hero h1 { 
             font-family: var(--font-digital); font-size: 3.5rem; 
             line-height: 1.1; margin-bottom: 20px; text-transform: uppercase;
@@ -136,6 +141,14 @@
         }
         .stat-value { font-family: var(--font-digital); font-size: 1.1rem; color: var(--text-main); }
         .fill { height: 3px; background: var(--neon-blue); width: 0%; transition: width 0.8s ease-out; margin-top: 5px; }
+        
+        /* ADSENSE */
+        .ad-space {
+            width: 100%; max-width: 728px; height: 90px;
+            background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(255,255,255,0.2);
+            margin: 20px auto; display: flex; align-items: center; justify-content: center;
+            color: #666; font-family: var(--font-code); letter-spacing: 2px; font-size: 0.9rem;
+        }
 
         /* PRODUCTS */
         .products { padding: 80px 5%; position: relative; z-index: 1; }
@@ -147,14 +160,19 @@
         }
         .card:hover { transform: translateY(-10px); border-color: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 243, 255, 0.2) inset; }
         .card h3 { font-family: var(--font-digital); font-size: 1.6rem; margin-bottom: 15px; color: white; }
+        .card p { color: var(--text-muted); line-height: 1.6; font-size: 1.1rem; margin-bottom: 25px; }
+        
         .card.gold-featured { border: 1px solid var(--gold); background: rgba(26, 21, 0, 0.7); }
         .card.gold-featured h3 { color: var(--gold); }
+        
+        /* Buttons */
         .btn-gold {
             width: 100%; padding: 15px; background: linear-gradient(to right, var(--gold), #ffc400);
             color: black; font-family: var(--font-digital); font-weight: 800; border: none; cursor: none;
             transition: 0.3s; clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
         }
         .btn-gold:hover { filter: brightness(1.2); box-shadow: 0 0 30px var(--gold); }
+        
         .btn-tech {
             width: 100%; padding: 12px; background: transparent; border: 1px solid var(--neon-blue); 
             color: var(--neon-blue); font-family: var(--font-digital); cursor: none; transition:0.3s;
@@ -165,6 +183,7 @@
         /* FORM */
         .contact-section { padding: 80px 20px; text-align: center; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); }
         .form-container { max-width: 600px; margin: 0 auto; background: var(--bg-card); padding: 40px; border-radius: 10px; border: 1px solid rgba(0, 243, 255, 0.1); text-align: left; }
+        .form-label { color: var(--neon-blue); font-size: 0.8rem; font-family: var(--font-digital); margin-bottom: 8px; display: block; letter-spacing: 1px; }
         .form-input { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid #333; color: white; margin-bottom: 20px; }
         .submit-btn { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); font-weight: bold; cursor: none; transition: 0.3s; }
         .submit-btn:hover { background: var(--neon-blue); color: black; }
@@ -172,6 +191,9 @@
         /* FOOTER */
         footer { padding: 60px 20px; text-align: center; background: rgba(2, 5, 10, 0.95); border-top: 1px solid rgba(255, 255, 255, 0.05); }
         .footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+        .credit-box { display: inline-block; padding: 5px 15px; border: 1px solid #00f3ff; border-radius:4px; margin-top: 20px; }
+        .credit-text { color: #888; font-size: 0.9rem; }
+        .credit-name { color: var(--neon-blue); font-weight: bold; }
 
         @media(max-width: 768px) {
             .header-info { display: none; }
@@ -202,7 +224,7 @@
     </nav>
 
     <section class="hero">
-        <div style="font-family: var(--font-digital); color: var(--neon-blue); margin-bottom: 20px; letter-spacing: 2px;">ENTERPRISE AUTOMATION v4.0</div>
+        <div class="tech-badge">ENTERPRISE AUTOMATION v4.0</div>
         
         <h1 id="typewriter"></h1>
         
@@ -239,7 +261,7 @@
             </div>
         </div>
         
-        <div style="width: 100%; max-width: 728px; height: 90px; background: rgba(0,0,0,0.3); border: 1px dashed #444; margin: 20px auto; display:flex; align-items:center; justify-content:center; color:#555;">[ Google AdSense Banner ]</div>
+        <div class="ad-space">[ Google AdSense Banner 728x90 ]</div>
     </section>
 
     <section class="products" id="services">
@@ -247,29 +269,41 @@
         
         <div class="grid">
             <div class="card">
+                <div class="tech-badge">BROADCAST AUTOMATION</div>
                 <h3>V-Monitor</h3>
                 <p>Engineered for ultimate control over <strong>vMix RunOrder</strong>. Manage complex broadcast schedules and automate graphic triggers.</p>
                 <button class="btn-tech" onclick="window.location.href='v-monitor.html'">VIEW SYSTEM DETAILS</button>
             </div>
+
             <div class="card">
+                <div class="tech-badge">SECURE ENCRYPTED COMMS</div>
                 <h3>V-Call</h3>
-                <p>The premium choice for professional communication. Ultra-low latency HD video and end-to-end encryption.</p>
+                <p>The premium choice for professional communication. Ultra-low latency replacement for vMix Call with stable connectivity.</p>
+                <button class="btn-tech" onclick="window.location.href='v-call.html'">VIEW ARCHITECTURE</button>
             </div>
+            
             <div class="card gold-featured">
-                <div style="color: var(--gold); font-size: 0.8rem; margin-bottom: 10px;">AI ASTROLOGY CORE</div>
+                <div class="tech-badge" style="color: var(--gold); background: rgba(255,215,0,0.15); border-color: var(--gold);">AI ASTROLOGY CORE</div>
                 <h3>Bhagya Aapka</h3>
-                <p>A revolutionary platform decoding your future. Combining Vedic wisdom with AI.</p>
+                <p>A revolutionary platform decoding your future. Combining ancient Vedic wisdom with modern AI to provide deeply personalized life guidance.</p>
                 <button class="btn-gold" onclick="window.location.href='bhagya-aapka.html'">LAUNCH PORTAL</button>
             </div>
         </div>
+        
+        <div class="ad-space" style="margin-top: 80px; height: 150px;">[ Responsive Ad Area ]</div>
     </section>
 
     <section class="contact-section" id="contact">
         <h2 class="section-header" style="font-size: 1.8rem;">/// INITIATE <span style="color: var(--neon-blue);">COMMUNICATION</span></h2>
         <div class="form-container">
             <form action="https://formspree.io/f/mwvnpzla" method="POST">
+                <label class="form-label">IDENTITY / ORGANIZATION</label>
                 <input type="text" name="name" class="form-input" required placeholder="Name / Org">
+                
+                <label class="form-label">DIGITAL ADDRESS (EMAIL)</label>
                 <input type="email" name="email" class="form-input" required placeholder="Email Address">
+                
+                <label class="form-label">TRANSMISSION DATA (MESSAGE)</label>
                 <textarea name="message" rows="5" class="form-input" required placeholder="Message Protocol..."></textarea>
                 <button type="submit" class="submit-btn">SEND ENCRYPTED MESSAGE</button>
             </form>
@@ -280,14 +314,13 @@
         <div class="footer-links">
             <a href="privacy.html">Privacy Policy</a> | <a href="#">Terms</a>
         </div>
-        <p style="color: #666; font-size: 0.9rem; margin-top: 20px;">&copy; 2026 V-TechSoft Systems.</p>
-        <div style="margin-top: 20px; border: 1px solid #00f3ff; display:inline-block; padding: 5px 15px; border-radius:4px; color:#00f3ff;">
-            Designed & Developed by <strong>Avinash Sarkar</strong>
+        <p style="color: #666; font-size: 0.9rem; margin-top: 20px;">&copy; 2026 V-TechSoft Systems. All Global Rights Reserved.</p>
+        <div class="credit-box">
+            <span class="credit-text">Designed & Developed by</span> <span class="credit-name">Avinash Sarkar</span>
         </div>
     </footer>
 
     <script>
-        // Use DOMContentLoaded to ensure elements exist before script runs
         document.addEventListener('DOMContentLoaded', function() {
             
             // 1. CURSOR
@@ -354,7 +387,7 @@
                 setInterval(addLog, 1500);
             }
 
-            // 5. STATS
+             // 5. STATS
             setInterval(() => {
                 const cpu = document.getElementById('cpu-val');
                 if(cpu) {
