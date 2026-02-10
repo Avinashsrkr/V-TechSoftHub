@@ -27,18 +27,17 @@
             overflow-x: hidden;
         }
 
-        /* --- BACKGROUND ANIMATIONS (SLOWED DOWN) --- */
-        /* Updated duration to 240s for very slow rotation */
+        /* --- BACKGROUND ANIMATIONS (SLOW) --- */
         .chakra-bg {
             position: fixed; top: 50%; left: 50%; width: 90vw; height: 90vw;
             border: 1px dashed rgba(255, 153, 51, 0.15); border-radius: 50%;
             transform: translate(-50%, -50%); z-index: -2;
-            animation: rotateChakra 240s linear infinite; 
+            animation: rotateChakra 600s linear infinite; 
         }
         .chakra-bg::before {
             content: ''; position: absolute; top: 15%; left: 15%; width: 70%; height: 70%;
             border: 1px solid rgba(255, 215, 0, 0.1); border-radius: 50%;
-            animation: rotateChakra 120s linear infinite reverse;
+            animation: rotateChakra 300s linear infinite reverse;
         }
         .stars-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -48,7 +47,7 @@
                 radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
             background-size: 550px 550px, 350px 350px, 250px 250px;
             background-position: 0 0, 40px 60px, 130px 270px;
-            animation: twinkle 15s infinite linear;
+            animation: twinkle 20s infinite linear;
         }
         @keyframes rotateChakra { 
             0% { transform: translate(-50%, -50%) rotate(0deg); } 
@@ -67,50 +66,19 @@
             backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 153, 51, 0.2);
         }
 
-        /* --- ADVANCED ZODIAC WHEEL LOGO --- */
+        /* --- IMAGE LOGO STYLE --- */
         .logo-container {
             display: flex; align-items: center; text-decoration: none; gap: 15px;
         }
         
-        .zodiac-wheel-logo {
-            width: 65px; height: 65px;
-            position: relative;
+        .logo-image-spin {
+            width: 70px; height: 70px;
             border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            /* Conic Gradient to create 12 zodiac sectors */
-            background: conic-gradient(
-                from 0deg, 
-                transparent 0deg 30deg, 
-                rgba(255, 153, 51, 0.2) 30deg 60deg,
-                transparent 60deg 90deg,
-                rgba(255, 153, 51, 0.2) 90deg 120deg,
-                transparent 120deg 150deg,
-                rgba(255, 153, 51, 0.2) 150deg 180deg,
-                transparent 180deg 210deg,
-                rgba(255, 153, 51, 0.2) 210deg 240deg,
-                transparent 240deg 270deg,
-                rgba(255, 153, 51, 0.2) 270deg 300deg,
-                transparent 300deg 330deg,
-                rgba(255, 153, 51, 0.2) 330deg 360deg
-            );
             border: 2px solid var(--saffron);
-            box-shadow: 0 0 15px rgba(255, 153, 51, 0.3);
-            animation: spinLogo 60s linear infinite;
+            box-shadow: 0 0 20px rgba(255, 153, 51, 0.5);
+            animation: spinLogo 120s linear infinite; 
         }
         
-        /* Inner Spokes */
-        .zodiac-wheel-logo::before {
-            content: ''; position: absolute; width: 80%; height: 80%;
-            border-radius: 50%; border: 1px dashed var(--gold);
-        }
-
-        /* Central Sun Icon */
-        .sun-center {
-            position: absolute; font-size: 1.5rem; color: var(--gold);
-            text-shadow: 0 0 10px var(--saffron); z-index: 2;
-            animation: pulseSun 3s infinite ease-in-out;
-        }
-
         .logo-text-group { display: flex; flex-direction: column; align-items: flex-start; }
         .logo-text-hindi {
             font-family: var(--font-hindi); font-size: 1.4rem; color: var(--gold);
@@ -123,7 +91,6 @@
         }
 
         @keyframes spinLogo { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulseSun { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } }
 
         .back-link { 
             color: var(--saffron); text-decoration: none; border: 1px solid var(--saffron); 
@@ -131,7 +98,7 @@
         }
         .back-link:hover { background: var(--saffron); color: #000; box-shadow: 0 0 15px var(--saffron); }
 
-        /* --- RASHIFAL BANNER --- */
+        /* --- RASHIFAL BANNER (SUPER SLOW) --- */
         .rashifal-banner {
             position: fixed; top: 80px; width: 100%; background: rgba(15, 5, 0, 0.9);
             border-bottom: 1px solid var(--saffron); border-top: 1px solid var(--saffron);
@@ -139,9 +106,15 @@
         }
         .rashifal-content {
             display: inline-block; font-family: var(--font-hindi); color: var(--saffron);
-            font-size: 1rem; font-weight: 600; animation: scrollRashifal 45s linear infinite; padding-left: 100%;
+            font-size: 1rem; font-weight: 600; 
+            /* Changed from 45s to 150s for VERY SLOW reading */
+            animation: scrollRashifal 150s linear infinite; 
+            padding-left: 100%;
         }
-        @keyframes scrollRashifal { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        @keyframes scrollRashifal { 
+            0% { transform: translateX(0); } 
+            100% { transform: translateX(-100%); } 
+        }
 
         /* --- HERO --- */
         .hero {
@@ -226,6 +199,7 @@
             nav { padding: 15px; }
             .rashifal-banner { top: 70px; }
             .hero { padding-top: 140px; }
+            .logo-image-spin { width: 55px; height: 55px; }
         }
     </style>
 </head>
@@ -236,9 +210,7 @@
 
     <nav>
         <a href="index.html" class="logo-container">
-            <div class="zodiac-wheel-logo">
-                <div class="sun-center">☀</div>
-            </div>
+            <img src="YOUR-IMAGE-URL.png" alt="Zodiac Logo" class="logo-image-spin">
             <div class="logo-text-group">
                 <div class="logo-text-hindi">भाग्य आपका</div>
                 <div class="logo-text-english">BHAGYA AAPKA</div>
