@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@400;600&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- DIVINE THEME VARIABLES --- */
+        /* --- DIVINE THEME --- */
         :root {
             --bg-dark: #0f0500;
             --saffron: #FF9933;
@@ -27,17 +27,18 @@
             overflow-x: hidden;
         }
 
-        /* --- ROTATING CHAKRA & TWINKLING STARS BACKGROUND --- */
+        /* --- BACKGROUND ANIMATIONS (SLOWED DOWN) --- */
+        /* Updated duration to 240s for very slow rotation */
         .chakra-bg {
             position: fixed; top: 50%; left: 50%; width: 90vw; height: 90vw;
             border: 1px dashed rgba(255, 153, 51, 0.15); border-radius: 50%;
             transform: translate(-50%, -50%); z-index: -2;
-            animation: rotateChakra 120s linear infinite;
+            animation: rotateChakra 240s linear infinite; 
         }
         .chakra-bg::before {
             content: ''; position: absolute; top: 15%; left: 15%; width: 70%; height: 70%;
             border: 1px solid rgba(255, 215, 0, 0.1); border-radius: 50%;
-            animation: rotateChakra 60s linear infinite reverse;
+            animation: rotateChakra 120s linear infinite reverse;
         }
         .stars-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -47,7 +48,7 @@
                 radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
             background-size: 550px 550px, 350px 350px, 250px 250px;
             background-position: 0 0, 40px 60px, 130px 270px;
-            animation: twinkle 10s infinite linear;
+            animation: twinkle 15s infinite linear;
         }
         @keyframes rotateChakra { 
             0% { transform: translate(-50%, -50%) rotate(0deg); } 
@@ -66,25 +67,51 @@
             backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 153, 51, 0.2);
         }
 
-        /* --- NEW HINDI/ENGLISH LOGO STYLE --- */
+        /* --- ADVANCED ZODIAC WHEEL LOGO --- */
         .logo-container {
             display: flex; align-items: center; text-decoration: none; gap: 15px;
         }
-        .divine-logo-chakra {
-            width: 60px; height: 60px; position: relative;
+        
+        .zodiac-wheel-logo {
+            width: 65px; height: 65px;
+            position: relative;
+            border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
+            /* Conic Gradient to create 12 zodiac sectors */
+            background: conic-gradient(
+                from 0deg, 
+                transparent 0deg 30deg, 
+                rgba(255, 153, 51, 0.2) 30deg 60deg,
+                transparent 60deg 90deg,
+                rgba(255, 153, 51, 0.2) 90deg 120deg,
+                transparent 120deg 150deg,
+                rgba(255, 153, 51, 0.2) 150deg 180deg,
+                transparent 180deg 210deg,
+                rgba(255, 153, 51, 0.2) 210deg 240deg,
+                transparent 240deg 270deg,
+                rgba(255, 153, 51, 0.2) 270deg 300deg,
+                transparent 300deg 330deg,
+                rgba(255, 153, 51, 0.2) 330deg 360deg
+            );
+            border: 2px solid var(--saffron);
+            box-shadow: 0 0 15px rgba(255, 153, 51, 0.3);
+            animation: spinLogo 60s linear infinite;
         }
-        /* Spinning Chakra Ring */
-        .chakra-ring-inner {
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 3px dotted var(--saffron);
-            box-shadow: 0 0 20px rgba(255, 153, 51, 0.4);
-            animation: spinSlow 30s linear infinite;
+        
+        /* Inner Spokes */
+        .zodiac-wheel-logo::before {
+            content: ''; position: absolute; width: 80%; height: 80%;
+            border-radius: 50%; border: 1px dashed var(--gold);
         }
-        /* Center Text Group */
-        .logo-text-group {
-            display: flex; flex-direction: column; align-items: flex-start;
+
+        /* Central Sun Icon */
+        .sun-center {
+            position: absolute; font-size: 1.5rem; color: var(--gold);
+            text-shadow: 0 0 10px var(--saffron); z-index: 2;
+            animation: pulseSun 3s infinite ease-in-out;
         }
+
+        .logo-text-group { display: flex; flex-direction: column; align-items: flex-start; }
         .logo-text-hindi {
             font-family: var(--font-hindi); font-size: 1.4rem; color: var(--gold);
             font-weight: 700; letter-spacing: 0.5px; line-height: 1;
@@ -95,8 +122,8 @@
             font-weight: 400; letter-spacing: 2px; margin-top: -2px;
         }
 
-        /* Logo Animations */
-        @keyframes spinSlow { 100% { transform: rotate(360deg); } }
+        @keyframes spinLogo { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulseSun { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } }
 
         .back-link { 
             color: var(--saffron); text-decoration: none; border: 1px solid var(--saffron); 
@@ -104,95 +131,72 @@
         }
         .back-link:hover { background: var(--saffron); color: #000; box-shadow: 0 0 15px var(--saffron); }
 
-        /* --- SCROLLING RASHIFAL BANNER --- */
+        /* --- RASHIFAL BANNER --- */
         .rashifal-banner {
-            position: fixed; top: 80px; /* Below nav */
-            width: 100%; background: rgba(15, 5, 0, 0.9);
+            position: fixed; top: 80px; width: 100%; background: rgba(15, 5, 0, 0.9);
             border-bottom: 1px solid var(--saffron); border-top: 1px solid var(--saffron);
             padding: 8px 0; z-index: 90; overflow: hidden; white-space: nowrap;
         }
         .rashifal-content {
-            display: inline-block;
-            font-family: var(--font-hindi); color: var(--saffron);
-            font-size: 1rem; font-weight: 600;
-            animation: scrollRashifal 45s linear infinite;
-            padding-left: 100%;
+            display: inline-block; font-family: var(--font-hindi); color: var(--saffron);
+            font-size: 1rem; font-weight: 600; animation: scrollRashifal 45s linear infinite; padding-left: 100%;
         }
-        @keyframes scrollRashifal {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
+        @keyframes scrollRashifal { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-
-        /* --- HERO SECTION --- */
+        /* --- HERO --- */
         .hero {
             min-height: 95vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            padding: 160px 20px 50px; /* Adjusted for banner */
+            padding: 160px 20px 50px; 
             background: radial-gradient(circle at center, rgba(255, 153, 51, 0.05) 0%, transparent 60%);
         }
-
         .om-symbol { 
             font-size: 5rem; color: var(--saffron); margin-bottom: 20px; 
             text-shadow: 0 0 30px rgba(255, 153, 51, 0.5); 
             animation: floatOm 4s ease-in-out infinite;
         }
         @keyframes floatOm { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
         h1 { 
             font-family: var(--font-divine); font-size: 3.8rem; color: var(--gold); 
             text-transform: uppercase; margin-bottom: 25px; letter-spacing: 3px;
             text-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
-        
         p { 
             max-width: 750px; font-size: 1.3rem; margin-bottom: 50px; line-height: 1.8; color: #d4c5b0; 
             border-left: 3px solid var(--saffron); padding-left: 20px;
         }
 
-        /* --- DIVINE GRID (FEATURES) --- */
+        /* --- FEATURES --- */
         .features { padding: 80px 5%; position: relative; }
         .section-title { 
             text-align: center; color: var(--saffron); font-family: var(--font-divine); 
             font-size: 2.2rem; margin-bottom: 70px; letter-spacing: 2px;
             text-shadow: 0 0 10px rgba(255, 153, 51, 0.3);
         }
-        .section-title span { color: var(--text-light); }
-        
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; }
-
         .card {
             background: rgba(30, 10, 0, 0.7); border: 1px solid rgba(255, 153, 51, 0.2);
             padding: 40px 30px; border-radius: 12px; text-align: center; transition: 0.4s;
             position: relative; overflow: hidden; backdrop-filter: blur(5px);
         }
-        
-        .card:hover { 
-            transform: translateY(-10px); 
-            border-color: var(--gold); 
-            box-shadow: 0 0 30px rgba(255, 153, 51, 0.15); 
-            background: rgba(45, 15, 0, 0.9);
-        }
-
+        .card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 0 30px rgba(255, 153, 51, 0.15); background: rgba(45, 15, 0, 0.9); }
         .card-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 10px var(--gold)); }
         .card h3 { font-family: var(--font-divine); color: var(--saffron); margin-bottom: 15px; font-size: 1.5rem; letter-spacing: 1px; }
         .card p { font-size: 1rem; color: #ccc; line-height: 1.6; }
 
-        /* --- CTA WAITLIST SECTION --- */
+        /* --- CTA --- */
         .cta-box {
             background: linear-gradient(135deg, #1a0500, #331000);
             border: 1px solid var(--gold); padding: 60px 20px; text-align: center;
             margin: 100px auto; max-width: 800px; border-radius: 15px;
             box-shadow: 0 0 50px rgba(255, 215, 0, 0.1); position: relative; overflow: hidden;
         }
-        
         .cta-box::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to right, transparent, rgba(255,215,0,0.1), transparent);
             transform: rotate(45deg); animation: shine 6s infinite;
         }
         @keyframes shine { 0% { left: -100%; } 100% { left: 100%; } }
-
         .join-btn {
             padding: 16px 45px; font-size: 1.1rem; background: linear-gradient(to right, var(--gold), #ffc400); 
             color: #220b00; border: none; font-family: var(--font-divine); font-weight: bold; cursor: pointer;
@@ -200,13 +204,11 @@
             transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
         }
         .join-btn:hover { filter: brightness(1.2); box-shadow: 0 0 25px var(--saffron); }
-
         .email-input {
             padding: 16px; width: 60%; background: #0f0500; border: 1px solid var(--saffron); 
             color: var(--gold); outline: none; font-family: var(--font-tech); font-size: 1rem;
             border-radius: 4px; transition: 0.3s;
         }
-        .email-input:focus { box-shadow: 0 0 15px rgba(255, 153, 51, 0.3); border-color: var(--gold); }
 
         /* --- FOOTER --- */
         footer { 
@@ -215,8 +217,7 @@
             background: #050200; margin-top: 50px;
             font-size: 0.9rem; color: #888;
         }
-        
-        /* MOBILE ADJUSTMENTS */
+
         @media(max-width: 768px) {
             h1 { font-size: 2.2rem; }
             .om-symbol { font-size: 4rem; }
@@ -225,9 +226,6 @@
             nav { padding: 15px; }
             .rashifal-banner { top: 70px; }
             .hero { padding-top: 140px; }
-            .logo-text-hindi { font-size: 1.2rem; }
-            .logo-text-english { font-size: 0.8rem; }
-            .divine-logo-chakra { width: 50px; height: 50px; }
         }
     </style>
 </head>
@@ -238,16 +236,14 @@
 
     <nav>
         <a href="index.html" class="logo-container">
-            <div class="divine-logo-chakra">
-                <div class="chakra-ring-inner"></div>
-                <span style="font-size: 1.8rem; color: var(--gold); text-shadow: 0 0 10px var(--saffron);">ॐ</span>
+            <div class="zodiac-wheel-logo">
+                <div class="sun-center">☀</div>
             </div>
             <div class="logo-text-group">
                 <div class="logo-text-hindi">भाग्य आपका</div>
                 <div class="logo-text-english">BHAGYA AAPKA</div>
             </div>
         </a>
-
         <a href="index.html" class="back-link">← RETURN TO SYSTEM</a>
     </nav>
 
@@ -273,55 +269,46 @@
         <h2 class="section-title">/// THE <span>DIVINE MODULES</span></h2>
         
         <div class="grid">
-            
             <div class="card">
                 <div class="card-icon">✨</div>
                 <h3>Vedic Kundli</h3>
                 <p>Complete birth chart analysis (Janampatri) using ancient planetary positions calculated by AI precision.</p>
             </div>
-
             <div class="card">
                 <div class="card-icon">🔢</div>
                 <h3>Ank Jyotish</h3>
                 <p>Unlock the power of your numbers. Numerology predictions for career, luck, and relationships based on your birth date.</p>
             </div>
-
             <div class="card">
                 <div class="card-icon">❤️</div>
                 <h3>Kundli Milan</h3>
                 <p>36 Guna matchmaking. Detailed compatibility reports for marriage and long-term partnerships. Check your bond strength.</p>
             </div>
-
             <div class="card">
                 <div class="card-icon">📕</div>
                 <h3>Lal Kitab</h3>
                 <p>Simple yet powerful remedies (Upay) from the Red Book to solve life's complex problems regarding health and finance.</p>
             </div>
-
             <div class="card">
                 <div class="card-icon">📜</div>
                 <h3>Bhrigu Samhita</h3>
                 <p>Insights from the oldest astrological text. Discover what the great sages wrote about your destiny centuries ago.</p>
             </div>
-
             <div class="card">
                 <div class="card-icon">✋</div>
                 <h3>AI Hastrekha</h3>
                 <p>Scan your palm using our App. AI analyzes lines (Life line, Heart line) and mounts to predict your fortune instantly.</p>
             </div>
-
             <div class="card">
                 <div class="card-icon">⏳</div>
                 <h3>Hora Muhurat</h3>
                 <p>Find the most auspicious time (Shubh Muhurat) to start new work, travel, or perform ceremonies.</p>
             </div>
-
             <div class="card">
                 <div class="card-icon">🏠</div>
                 <h3>Vastu Shastra</h3>
                 <p>AI-guided energy balancing for your home and office to attract wealth, health, and peace of mind.</p>
             </div>
-
         </div>
     </section>
 
@@ -332,7 +319,6 @@
         <p style="border: none; padding: 0; color: #d4c5b0; font-size: 1.1rem;">
             The App is currently in <strong>Closed Beta</strong>. Join the exclusive waiting list to get early access before the public launch.
         </p>
-        
         <form action="https://formspree.io/f/mwvnpzla" method="POST" style="margin-top: 30px;">
             <input type="email" name="email" class="email-input" placeholder="Enter your email for Waitlist..." required>
             <input type="hidden" name="project" value="Bhagya Aapka Waitlist">
