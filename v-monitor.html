@@ -9,57 +9,38 @@
     <style>
         /* --- MATRIX THEME VARIABLES --- */
         :root {
-            --bg-dark: #020a02; /* Deep Matrix Black */
-            --bg-card: rgba(5, 20, 5, 0.85);
-            --neon-green: #39ff14; /* Classic Matrix Green */
+            --bg-dark: #020a02;
+            --neon-green: #39ff14;
             --text-main: #e6ffe6;
-            --text-muted: #80b380;
             --font-digital: 'Orbitron', sans-serif;
             --font-tech: 'Rajdhani', sans-serif;
             --font-code: 'Share Tech Mono', monospace;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; cursor: crosshair; /* Tech Crosshair Cursor */ }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
         
         body { 
             background-color: var(--bg-dark); 
             color: var(--text-main); 
             font-family: var(--font-tech);
             overflow-x: hidden;
+            height: 100vh;
         }
 
-        /* --- UPWARD DATA FLOW BACKGROUND (Matrix Style) --- */
-        .matrix-flow-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            /* Creating vertical data lines representing 0101 code flow */
-            background-image: 
-                linear-gradient(0deg, transparent 20%, rgba(57, 255, 20, 0.05) 50%, transparent 80%),
-                repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(57, 255, 20, 0.02) 3px, transparent 4px);
-            background-size: 100% 200%, 10px 100%;
-            /* Moving Background BOTTOM to TOP slowly */
-            animation: dataFlowUp 30s linear infinite;
-        }
-        @keyframes dataFlowUp {
-            0% { background-position: 0% 100%, 0 0; }
-            100% { background-position: 0% 0%, 0 0; }
-        }
-        /* Digital Grid Overlay */
-        .grid-overlay {
-             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-             background-image: linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
-                               linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
-             background-size: 30px 30px; opacity: 0.3;
+        /* --- MATRIX CANVAS (The Real 0101 Animation) --- */
+        #matrixCanvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.2; /* Thoda transparent taaki text padh sakein */
         }
 
-        /* --- NAVIGATION (Green Theme) --- */
+        /* --- NAVIGATION --- */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 40px; position: fixed; width: 100%; top: 0;
-            background: rgba(2, 10, 2, 0.95); backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(57, 255, 20, 0.2); z-index: 1000;
+            background: rgba(2, 10, 2, 0.9); backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(57, 255, 20, 0.3); z-index: 1000;
         }
-        .brand-wrapper { display: flex; align-items: center; text-decoration: none; }
-        .logo-text { font-family: var(--font-digital); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; color: white; }
+        .logo-text { font-family: var(--font-digital); font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none;}
         .logo-text span { color: var(--neon-green); }
         .back-link { 
             color: var(--neon-green); text-decoration: none; border: 1px solid var(--neon-green); 
@@ -67,11 +48,11 @@
         }
         .back-link:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO --- */
         .hero {
-            min-height: 80vh; display: flex; flex-direction: column;
+            min-height: 85vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            padding: 160px 20px 50px;
+            padding: 140px 20px 50px;
         }
         .tech-badge {
             background: rgba(57, 255, 20, 0.1); color: var(--neon-green);
@@ -81,129 +62,140 @@
         h1 { 
             font-family: var(--font-digital); font-size: 3.5rem; color: white;
             text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
         }
         h1 span { color: var(--neon-green); }
-        
-        /* AWAITED BUTTON STYLE */
+
         .awaited-btn {
             padding: 15px 40px; background: rgba(57, 255, 20, 0.05); border: 2px dashed var(--neon-green);
-            color: var(--text-muted); font-family: var(--font-digital); font-weight: bold; font-size: 1.1rem;
-            margin-top: 30px; letter-spacing: 1px; cursor: not-allowed; position: relative; overflow: hidden;
+            color: #80b380; font-family: var(--font-digital); font-weight: bold; font-size: 1.1rem;
+            margin-top: 30px; letter-spacing: 1px; cursor: not-allowed;
         }
-        /* Scanning effect on awaited button */
-        .awaited-btn::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.2), transparent);
-            animation: scanBtn 3s infinite;
-        }
-        @keyframes scanBtn { 100% { left: 100%; } }
 
         /* --- DETAILS GRID --- */
-        .details-section { padding: 60px 5%; background: rgba(0,10,0,0.5); border-top: 1px solid rgba(57, 255, 20, 0.1); }
+        .details-section { padding: 60px 5%; background: rgba(0,10,0,0.6); border-top: 1px solid rgba(57, 255, 20, 0.2); }
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; }
         
-        .info-box ul { list-style: none; padding-left: 20px; }
-        .info-box li { margin-bottom: 15px; font-size: 1.1rem; color: var(--text-muted); position: relative; }
+        .info-box ul { list-style: none; padding-left: 0; }
+        .info-box li { margin-bottom: 15px; font-size: 1.1rem; color: #a3c2a3; }
         .info-box li::before { content: '[+]'; color: var(--neon-green); margin-right: 10px; font-family: var(--font-code); }
 
-        /* --- MEDIA SECTION (Image & Video Placeholder) --- */
-        .media-container {
-            display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap;
-        }
+        .media-container { display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; }
         .media-box {
             flex: 1; min-width: 300px; height: 300px;
             background: #000; border: 1px solid rgba(57, 255, 20, 0.3);
-            display: flex; justify-content: center; align-items: center;
-            position: relative; overflow: hidden;
+            display: flex; justify-content: center; align-items: center; position: relative;
         }
-        /* Placeholders styled to look techy */
-        .placeholder-text { color: var(--neon-green); font-family: var(--font-code); text-align: center; opacity: 0.7; }
-        .placeholder-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(100%) sepia(100%) hue-rotate(90deg) saturate(200%); } /* Matrix filter effect on images */
+        .placeholder-text { color: var(--neon-green); font-family: var(--font-code); text-align: center; }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 40px; background: #020502; border-top: 1px solid rgba(57, 255, 20, 0.2); }
         
-        /* YouTube Embed Responsive Fix */
-        .video-container { position: relative; padding-bottom: 56.25%; /* 16:9 */ height: 0; overflow: hidden; width: 100%; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        /* --- FOOTER --- */
-        footer { 
-            text-align: center; padding: 50px 20px; 
-            border-top: 1px solid rgba(57, 255, 20, 0.1); background: #020502; margin-top: 50px;
-        }
-
-        @media(max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            nav { padding: 15px; }
-            .hero { padding-top: 120px; }
-            .media-box { height: 200px; }
-        }
+        @media(max-width: 768px) { h1 { font-size: 2.2rem; } }
     </style>
 </head>
 <body>
 
-    <div class="matrix-flow-bg"></div>
-    <div class="grid-overlay"></div>
+    <canvas id="matrixCanvas"></canvas>
 
     <nav>
-        <a href="index.html" class="brand-wrapper">
-            <div class="logo-text">V-TECH<span>SOFT</span></div>
-        </a>
-        <a href="index.html" class="back-link">← RETURN TO MAIN SYSTEM</a>
+        <a href="index.html" class="logo-text">V-TECH<span>SOFT</span></a>
+        <a href="index.html" class="back-link">← SYSTEM</a>
     </nav>
 
     <section class="hero">
         <div class="tech-badge">ENTERPRISE SCHEDULER CORE</div>
-        <h1>V-Monitor <br> <span>Automation System</span></h1>
+        <h1>V-Monitor <br> <span>Automation</span></h1>
         
         <div style="font-family: var(--font-code); color: var(--neon-green); margin-bottom: 20px; border: 1px solid; padding: 5px 15px; display: inline-block;">
-            CURRENT STATUS: SOLO VERSION ACTIVE
+            STATUS: SOLO VERSION ACTIVE
         </div>
 
-        <p style="max-width: 600px; font-size: 1.2rem; margin-bottom: 30px; color: var(--text-muted);">
-            Precision control for broadcast environments. Automate your vMix rundown sequences with absolute timing and reliability.
+        <p style="max-width: 600px; font-size: 1.2rem; margin-bottom: 30px; color: #a3c2a3;">
+            Precision control for broadcast environments. Automate vMix rundown sequences with absolute timing.
         </p>
 
-        <button class="awaited-btn">
-            [ DOWNLOAD AWAITED - COMPILING BUILD ]
-        </button>
+        <button class="awaited-btn">[ DOWNLOAD AWAITED ]</button>
     </section>
 
     <section class="details-section">
         <div class="grid-2">
-            
             <div class="info-box">
-                <h2 style="font-family: var(--font-digital); color: white; margin-bottom: 25px;">/// SYSTEM <span>CAPABILITIES</span></h2>
+                <h2 style="font-family: var(--font-digital); color: white; margin-bottom: 25px;">/// SYSTEM <span>SPECS</span></h2>
                 <ul>
-                    <li><strong>vMix List Scheduler:</strong> Seamlessly executes complex run orders.</li>
-                    <li><strong>Solo Working Version:</strong> Current build optimized for single-user deployment.</li>
-                    <li><strong>Zero Latency Triggering:</strong> Instant execution of graphic and video cues.</li>
-                    <li><strong>Stable Core Architecture:</strong> Designed for 24/7 mission-critical operations.</li>
+                    <li><strong>vMix Scheduler:</strong> Execute complex run orders.</li>
+                    <li><strong>Solo Version:</strong> Optimized for single-user deployment.</li>
+                    <li><strong>Zero Latency:</strong> Instant graphic triggers.</li>
+                    <li><strong>Stable Core:</strong> 24/7 mission-critical operations.</li>
                 </ul>
             </div>
 
             <div class="media-column">
                 <h2 style="font-family: var(--font-digital); color: white; margin-bottom: 25px;">/// VISUAL <span>DATA</span></h2>
-                
                 <div class="media-container">
                     <div class="media-box">
-                        <img src="https://via.placeholder.com/400x300/000000/39ff14?text=V-MONITOR+INTERFACE+PREVIEW" class="placeholder-img" alt="V-Monitor Interface">
+                        <div class="placeholder-text">[ INTERFACE PREVIEW ]</div>
                     </div>
-
                     <div class="media-box" style="border-style: dashed;">
-                        <div class="video-container">
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/HereYourVideoLink?controls=0&rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
+                        <div class="placeholder-text">[ DEMO VIDEO SIGNAL MISSING ]</div>
                     </div>
                 </div>
-                 <p style="text-align: center; margin-top: 10px; font-family: var(--font-code); color: var(--neon-green); font-size: 0.8rem;">[ Video & Interface Demonstration ]</p>
             </div>
-
         </div>
     </section>
 
     <footer>
-        <p style="color: var(--text-muted);">&copy; 2026 V-TechSoft Systems. V-Monitor Division.</p>
+        <p style="color: #666;">&copy; 2026 V-TechSoft Systems.</p>
     </footer>
 
+    <script>
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Resize Canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const binary = "0101101101"; // Characters to use
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        
+        // Array to store Y positions for each column
+        // Initializing at random positions to look natural
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * canvas.height; 
+        }
+
+        function draw() {
+            // Black bg with slight opacity for trail effect
+            ctx.fillStyle = "rgba(2, 10, 2, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#39ff14"; // Matrix Green Text
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = binary.charAt(Math.floor(Math.random() * binary.length));
+                
+                // Draw text
+                ctx.fillText(text, i * fontSize, drops[i]);
+
+                // Move drop UPWARDS (Bottom to Top)
+                drops[i] -= fontSize; // Subtract to move up
+
+                // Reset drop to bottom if it goes off screen top
+                if (drops[i] < 0 && Math.random() > 0.975) {
+                    drops[i] = canvas.height;
+                }
+            }
+        }
+        // Run animation
+        setInterval(draw, 50);
+    </script>
 </body>
 </html>
