@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhagya Aapka | AI Vedic Astrology Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@400;600&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <title>Bhagya Aapka | AI Vedic Astrology</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@400;600&family=Noto+Sans+Devanagari:wght@400;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
     
     <style>
-        /* --- DYNAMIC THEME VARIABLES --- */
+        /* --- THEME VARIABLES --- */
         :root {
             --bg-dark: #0f0500;
             --saffron: #FF9933; 
             --gold: #FFD700;    
             --text-light: #fff5e6;
-            --card-bg: rgba(30, 10, 0, 0.8);
+            --card-bg: rgba(20, 5, 0, 0.9);
             --font-divine: 'Cinzel', serif;
             --font-tech: 'Rajdhani', sans-serif;
             --font-hindi: 'Noto Sans Devanagari', sans-serif;
+            --font-sanskrit: 'Tiro Devanagari Sanskrit', serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -26,488 +27,374 @@
             color: var(--text-light); 
             font-family: var(--font-tech);
             overflow-x: hidden;
-            transition: background-color 1s ease;
         }
 
-        /* --- MODALS (POPUPS) --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); z-index: 2000;
-            display: none; justify-content: center; align-items: center;
-            backdrop-filter: blur(8px);
-        }
-        
-        .modal-box {
-            background: linear-gradient(135deg, #1a0500, #000);
-            border: 2px solid var(--gold); padding: 30px; border-radius: 15px;
-            width: 90%; max-width: 500px; text-align: center;
-            box-shadow: 0 0 50px var(--saffron); position: relative;
-            animation: popIn 0.3s ease-out;
-        }
-        
-        .close-modal {
-            position: absolute; top: 10px; right: 15px; font-size: 1.5rem; color: var(--saffron);
-            cursor: pointer; font-weight: bold;
-        }
-        
-        /* Module Preview Content */
-        .module-content h3 { color: var(--gold); font-family: var(--font-divine); margin-bottom: 15px; font-size: 1.8rem; }
-        .module-content p { color: #ccc; margin-bottom: 25px; line-height: 1.6; font-size: 1.1rem; }
-        
-        /* Lock Icon */
-        .lock-icon { font-size: 3rem; margin-bottom: 15px; display: block; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0.7; } }
-
-        /* --- ANIMATED BACKGROUNDS --- */
-        .chakra-bg {
-            position: fixed; top: 50%; left: 50%; width: 90vw; height: 90vw;
-            border: 1px dashed var(--saffron); border-radius: 50%;
-            transform: translate(-50%, -50%); z-index: -2;
-            opacity: 0.3;
-            animation: rotateChakra 600s linear infinite;
-            transition: border-color 1s ease;
-        }
-        .stars-bg {
+        /* --- MOVING ZODIAC BACKGROUND --- */
+        .zodiac-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 5px);
-            background-size: 550px 550px; animation: twinkle 20s infinite linear;
+            pointer-events: none; overflow: hidden;
         }
-        @keyframes rotateChakra { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-        @keyframes twinkle { from { background-position: 0 0; } to { background-position: -550px -550px; } }
+        .floating-symbol {
+            position: absolute; color: rgba(255, 153, 51, 0.1); font-size: 3rem;
+            animation: floatUp 20s linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- GOOGLE TRANSLATE WIDGET --- */
+        #google_translate_element {
+            position: absolute; top: 20px; right: 80px; z-index: 1001;
+        }
+        .goog-te-gadget-simple {
+            background-color: rgba(0,0,0,0.5) !important; border: 1px solid var(--saffron) !important;
+            padding: 5px !important; border-radius: 4px;
+        }
+        .goog-te-gadget-simple span { color: var(--gold) !important; }
 
         /* --- NAVIGATION --- */
         nav {
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(to bottom, rgba(0,0,0, 0.95), transparent);
+            background: linear-gradient(to bottom, #000, transparent);
             position: fixed; width: 100%; top: 0; z-index: 100;
-            backdrop-filter: blur(5px); border-bottom: 1px solid var(--saffron);
+            border-bottom: 1px solid var(--saffron); backdrop-filter: blur(5px);
         }
         .logo-container { display: flex; align-items: center; text-decoration: none; gap: 15px; }
         .logo-image-spin {
-            width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--saffron);
-            box-shadow: 0 0 20px var(--saffron); animation: spinLogo 120s linear infinite;
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--saffron);
+            animation: spinLogo 120s linear infinite;
         }
-        .logo-text-group { display: flex; flex-direction: column; }
-        .logo-text-hindi { font-family: var(--font-hindi); font-size: 1.4rem; color: var(--gold); font-weight: 700; line-height: 1; }
-        .logo-text-english { font-family: var(--font-divine); font-size: 0.9rem; color: var(--saffron); letter-spacing: 2px; }
+        .logo-text-hindi { font-family: var(--font-hindi); font-size: 1.2rem; color: var(--gold); font-weight: 700; line-height: 1; }
+        .logo-text-english { font-family: var(--font-divine); font-size: 0.8rem; color: var(--saffron); letter-spacing: 2px; }
         @keyframes spinLogo { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .back-link { 
             color: var(--saffron); text-decoration: none; border: 1px solid var(--saffron); 
-            padding: 8px 20px; border-radius: 4px; transition: 0.3s; 
+            padding: 5px 15px; border-radius: 4px; font-size: 0.8rem;
         }
 
-        /* --- HERO & RASHI BADGE --- */
-        #rashi-badge {
-            position: fixed; top: 100px; left: 20px; z-index: 999;
-            background: rgba(0,0,0,0.8); border: 2px solid var(--saffron);
-            padding: 10px; border-radius: 10px; text-align: center;
-            display: none; box-shadow: 0 0 20px var(--saffron);
-            animation: popIn 0.5s ease-out;
+        /* --- LAYOUT WITH ADS --- */
+        .main-layout { display: flex; flex-wrap: wrap; margin-top: 100px; }
+        .ad-sidebar { 
+            flex: 1; min-width: 150px; background: rgba(255,255,255,0.02); 
+            border-right: 1px dashed #333; border-left: 1px dashed #333;
+            display: flex; align-items: center; justify-content: center; color: #444;
+            display: none; /* Hidden on mobile */
         }
-        .rashi-icon { font-size: 2.5rem; display: block; }
-        .rashi-name { color: var(--gold); font-family: var(--font-hindi); font-weight: bold; }
-        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        .content-area { flex: 6; padding: 20px; }
+        
+        @media(min-width: 1000px) { .ad-sidebar { display: flex; } }
 
-        .hero {
-            min-height: 90vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            padding: 140px 20px 50px;
+        /* --- HERO FORM (The Key) --- */
+        .hero-form-box {
+            background: rgba(0,0,0,0.8); border: 2px solid var(--gold);
+            padding: 30px; border-radius: 15px; max-width: 600px; margin: 0 auto 50px;
+            box-shadow: 0 0 30px rgba(255, 153, 51, 0.2);
         }
-        h1 { font-family: var(--font-divine); font-size: 3.5rem; color: var(--gold); margin-bottom: 20px; text-transform: uppercase; text-shadow: 0 0 10px var(--saffron);}
-
-        /* --- INPUT FORM --- */
-        .user-form-container {
-            background: rgba(0,0,0,0.6); border: 1px solid var(--saffron);
-            padding: 30px; border-radius: 15px; max-width: 500px; width: 100%;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
-        }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-label { color: var(--saffron); font-size: 0.9rem; margin-bottom: 5px; display: block; font-family: var(--font-tech); }
-        .hero-input {
-            width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #555;
-            color: white; border-radius: 5px; outline: none; font-family: var(--font-tech);
-        }
-        .hero-input:focus { border-color: var(--saffron); }
-        .btn-generate {
-            width: 100%; padding: 15px; background: linear-gradient(to right, var(--saffron), var(--gold));
-            color: black; font-weight: bold; border: none; font-family: var(--font-divine);
-            cursor: pointer; font-size: 1.1rem; margin-top: 10px; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-        }
-        .btn-generate:hover { filter: brightness(1.2); }
-
-        /* --- KUNDLI CHART --- */
-        .kundli-result-box { display: none; animation: fadeIn 1s ease; }
-        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-
-        .kundli-container {
-            width: 320px; height: 320px; margin: 20px auto; position: relative;
-            border: 1px solid var(--gold); background: rgba(0,0,0,0.4);
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
-        }
-        .kundli-svg { width: 100%; height: 100%; stroke: var(--saffron); stroke-width: 0.8; fill: none; }
-        .planet { font-size: 0.8rem; fill: var(--text-light); font-family: var(--font-tech); font-weight: bold; }
-        .user-name-display { color: var(--gold); font-family: var(--font-divine); font-size: 1.5rem; margin-bottom: 5px; }
-
-        /* --- RASHIFAL BANNER --- */
-        .rashifal-banner {
-            position: fixed; top: 80px; width: 100%; background: rgba(0,0,0, 0.9);
-            border-bottom: 1px solid var(--saffron); border-top: 1px solid var(--saffron);
-            padding: 8px 0; z-index: 90; overflow: hidden; white-space: nowrap;
-        }
-        .rashifal-content {
-            display: inline-block; font-family: var(--font-hindi); color: var(--saffron);
-            font-size: 1rem; font-weight: 600; 
-            animation: scrollRashifal 150s linear infinite; 
-            padding-left: 100%;
-        }
-        @keyframes scrollRashifal { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-
-        /* --- FEATURES GRID --- */
-        .features { padding: 60px 5%; border-top: 1px solid rgba(255,153,51,0.2); }
-        .section-title { text-align: center; color: var(--saffron); font-family: var(--font-divine); font-size: 2.2rem; margin-bottom: 60px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; }
-        .card {
-            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
-            padding: 30px; border-radius: 12px; text-align: center; transition: 0.4s;
-            cursor: pointer; position: relative;
-        }
-        .card:hover { transform: translateY(-10px); border-color: var(--saffron); box-shadow: 0 0 20px var(--saffron); }
-        .card-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; color: var(--gold); }
-        .card h3 { color: var(--saffron); margin-bottom: 10px; font-family: var(--font-divine); }
-
-        /* --- DIRECTORY & REGISTER --- */
-        .directory-section { padding: 60px 5%; border-top: 1px solid rgba(255,153,51,0.2); background: linear-gradient(to bottom, #0f0500, #1a0500); }
-        .astro-card {
-            background: var(--card-bg); border: 1px solid var(--saffron); padding: 25px;
-            text-align: center; border-radius: 10px; transition: 0.3s;
-        }
-        .astro-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(255, 153, 51, 0.2); }
-        .astro-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 15px; object-fit: cover; }
-        .astro-name { color: var(--gold); font-size: 1.4rem; font-family: var(--font-divine); margin-bottom: 5px; }
-        .astro-spec { color: #ccc; font-size: 0.9rem; margin-bottom: 15px; font-family: var(--font-tech); }
-        .btn-profile {
-            padding: 8px 25px; border: 1px solid var(--saffron); background: transparent;
-            color: var(--saffron); cursor: pointer; transition: 0.3s; font-family: var(--font-tech);
-        }
-        .btn-profile:hover { background: var(--saffron); color: black; }
-
-        .register-section {
-            background: linear-gradient(to right, #1a0500, #2e0e00);
-            padding: 80px 20px; border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold);
-        }
-        .form-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 40px auto 0;
-        }
+        .form-title { color: var(--saffron); text-align: center; font-family: var(--font-hindi); margin-bottom: 20px; font-size: 1.5rem; }
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .astro-input {
-            width: 100%; padding: 15px; background: rgba(0,0,0,0.6); border: 1px solid var(--saffron);
-            color: var(--gold); font-family: var(--font-tech); outline: none; font-size: 1rem;
+            width: 100%; padding: 12px; background: #1a0500; border: 1px solid #555;
+            color: var(--gold); outline: none; border-radius: 5px; font-family: var(--font-tech);
         }
         .full-width { grid-column: span 2; }
-        .btn-register {
-            grid-column: span 2; padding: 15px; background: var(--gold); color: black;
-            font-weight: bold; cursor: pointer; border: none; font-family: var(--font-divine);
-            transition: 0.3s; font-size: 1.1rem; margin-top: 10px;
+        .btn-submit {
+            width: 100%; padding: 15px; background: var(--gold); color: black; font-weight: bold;
+            border: none; cursor: pointer; font-family: var(--font-divine); margin-top: 20px;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
         }
-        .btn-register:hover { box-shadow: 0 0 25px var(--saffron); filter: brightness(1.1); }
-
-        /* --- FOOTER --- */
-        footer { text-align: center; padding: 50px 20px; border-top: 1px solid var(--saffron); background: #050200; margin-top: 50px; color: #888; }
         
+        /* --- LOCKED MODULES STATE --- */
+        .locked-state {
+            opacity: 0.4; pointer-events: none; filter: grayscale(100%);
+            transition: 1s ease;
+        }
+        .unlocked-state {
+            opacity: 1; pointer-events: all; filter: grayscale(0%);
+        }
+
+        /* --- KUNDLI CHART (HINDI & SHARP) --- */
+        .kundli-display { 
+            display: none; text-align: center; margin-bottom: 50px; 
+            animation: fadeIn 1.5s; 
+        }
+        .chart-svg { width: 320px; height: 320px; border: 1px solid var(--saffron); background: #000; margin: 0 auto; box-shadow: 0 0 30px rgba(255,153,51,0.3); }
+        .chart-line { stroke: var(--saffron); stroke-width: 1; fill: none; }
+        .chart-text { fill: var(--gold); font-family: var(--font-hindi); font-size: 14px; font-weight: bold; }
+
+        /* --- MODULES GRID --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card {
+            background: var(--card-bg); border: 1px solid #444; padding: 20px;
+            text-align: center; border-radius: 10px; cursor: pointer; transition: 0.3s;
+        }
+        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .card h3 { color: var(--saffron); margin: 10px 0; font-family: var(--font-divine); }
+
+        /* --- MODALS (Popup) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; display: none;
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: #111; border: 2px solid var(--saffron); padding: 30px;
+            width: 90%; max-width: 500px; text-align: center; position: relative;
+        }
+        .close-btn { position: absolute; top: 10px; right: 15px; color: red; cursor: pointer; font-size: 1.5rem; }
+
+        /* --- ASTROLOGER PROFILE (DEMO PAGE) --- */
+        .guru-full-profile {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #050200; z-index: 3000; overflow-y: auto;
+        }
+        .guru-header {
+            background: linear-gradient(to bottom, #2e0e00, #050200); padding: 80px 20px 40px;
+            text-align: center; border-bottom: 2px solid var(--gold);
+        }
+        .guru-img-large {
+            height: 300px; width: auto; filter: drop-shadow(0 0 20px var(--gold));
+            margin-bottom: -40px; mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+        .guru-info { padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
+        .shloka { font-family: var(--font-sanskrit); color: var(--gold); font-size: 1.2rem; margin: 20px 0; font-style: italic; }
+        .guru-details-grid { display: flex; justify-content: space-around; margin: 30px 0; border-top: 1px solid #333; border-bottom: 1px solid #333; padding: 20px 0; }
+        .detail-item h4 { color: #888; font-size: 0.9rem; }
+        .detail-item p { color: var(--saffron); font-size: 1.2rem; font-family: var(--font-divine); }
+
+        /* --- ADSENSE FOOTER --- */
+        .footer-ad { width: 100%; height: 90px; background: #111; border: 1px dashed #444; margin-top: 50px; display: flex; align-items: center; justify-content: center; color: #555; }
+
         @media(max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .form-grid { grid-template-columns: 1fr; }
-            .full-width { grid-column: span 1; }
-            .rashifal-banner { top: 70px; }
-            .logo-image-spin { width: 50px; height: 50px; }
+            .input-grid { grid-template-columns: 1fr; }
+            .chart-svg { width: 100%; height: auto; aspect-ratio: 1/1; }
         }
     </style>
 </head>
 <body>
 
-    <div class="modal-overlay" id="previewModal">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeModal('previewModal')">×</span>
-            <div class="module-content">
-                <div style="font-size: 3rem; margin-bottom: 10px;" id="previewIcon">✨</div>
-                <h3 id="previewTitle">Service Name</h3>
-                <p id="previewDesc">
-                    Detailed analysis based on Vedic principles. This report includes planetary positions, predictions, and remedies customized for you.
-                </p>
-                <div style="background: rgba(255,255,255,0.05); padding: 10px; margin-bottom: 20px; border-radius: 5px; color: var(--gold); font-size: 0.9rem;">
-                    Premium PDF Report • Instant Generation
-                </div>
-                <button class="btn-generate" onclick="triggerEmailLock()">DOWNLOAD FULL REPORT</button>
-            </div>
-        </div>
-    </div>
+    <div class="zodiac-bg" id="zodiacContainer"></div>
 
-    <div class="modal-overlay" id="emailModal">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeModal('emailModal')">×</span>
-            <div class="lock-icon">🔒</div>
-            <h3 style="color: var(--gold); font-family: var(--font-divine); margin-bottom: 10px;">VERIFICATION REQUIRED</h3>
-            <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 20px;">
-                To download the <span id="verifyServiceName" style="color: var(--saffron);">Report</span>, please verify your identity. <br>
-                The PDF will be sent to your registered email.
-            </p>
-            
-            <form action="https://formspree.io/f/mwvnpzla" method="POST">
-                <input type="email" name="client_email" class="astro-input" placeholder="Your Email Address..." required style="margin-bottom: 15px;">
-                <input type="hidden" name="requested_service" id="hiddenServiceField">
-                <button type="submit" class="btn-generate" style="width: 100%;">VERIFY & DOWNLOAD</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="chakra-bg"></div>
-    <div class="stars-bg"></div>
-
-    <div id="rashi-badge">
-        <span class="rashi-icon" id="rashi-icon-display">✨</span>
-        <span class="rashi-name" id="rashi-name-display">राशि</span>
-    </div>
+    <div id="google_translate_element"></div>
 
     <nav>
-        <a href="index.html" class="logo-container">
+        <a href="#" class="logo-container">
             <img src="logo.png" alt="Logo" class="logo-image-spin">
             <div class="logo-text-group">
                 <div class="logo-text-hindi">भाग्य आपका</div>
                 <div class="logo-text-english">BHAGYA AAPKA</div>
             </div>
         </a>
-        <a href="index.html" class="back-link">← RETURN</a>
+        <a href="index.html" class="back-link">← SYSTEM</a>
     </nav>
 
-    <div class="rashifal-banner">
-        <div class="rashifal-content">
-            || आज का राशिफल: 10 फरवरी 2026 | विक्रम संवत 2082 | मेष: शुभ | वृष: धन लाभ | मिथुन: यात्रा | कर्क: सफलता | सिंह: आनंद | कन्या: निवेश | तुला: प्रेम | वृश्चिक: सावधान | धनु: शिक्षा | मकर: लाभ | कुंभ: शांति | मीन: धर्म ||
+    <div class="main-layout">
+        
+        <div class="ad-sidebar">[ AD SPACE ]</div>
+
+        <div class="content-area">
+            
+            <div class="hero-form-box" id="userFormBox">
+                <h2 class="form-title">निःशुल्क कुंडली विश्लेषण (Free Analysis)</h2>
+                <p style="text-align: center; color: #888; margin-bottom: 20px;">कृपया अपनी सटीक जानकारी भरें</p>
+                <div class="input-grid">
+                    <input type="text" id="name" class="astro-input full-width" placeholder="पूरा नाम (Full Name)">
+                    <input type="text" id="city" class="astro-input" placeholder="जन्म स्थान (City)">
+                    <input type="date" id="dob" class="astro-input">
+                    <input type="time" id="time" class="astro-input">
+                </div>
+                <button class="btn-submit" onclick="activateDashboard()">जन्मपत्री बनाएँ (GENERATE)</button>
+            </div>
+
+            <div class="kundli-display" id="kundliSection">
+                <h2 style="color: var(--gold); font-family: var(--font-hindi);">लग्न कुंडली (D1 Chart)</h2>
+                <p style="color: var(--saffron); margin-bottom: 20px;" id="userHeaderName">नाम: अविनाश</p>
+                
+                <svg class="chart-svg" viewBox="0 0 100 100">
+                    <rect x="0" y="0" width="100" height="100" stroke="var(--saffron)" fill="none"/>
+                    <line x1="0" y1="0" x2="100" y2="100" class="chart-line"/>
+                    <line x1="100" y1="0" x2="0" y2="100" class="chart-line"/>
+                    <line x1="50" y1="0" x2="0" y2="50" class="chart-line"/>
+                    <line x1="50" y1="0" x2="100" y2="50" class="chart-line"/>
+                    <line x1="0" y1="50" x2="50" y2="100" class="chart-line"/>
+                    <line x1="100" y1="50" x2="50" y2="100" class="chart-line"/>
+                    <text x="50" y="25" class="chart-text" text-anchor="middle">सूर्य</text>
+                    <text x="25" y="45" class="chart-text" text-anchor="middle">चन्द्र</text>
+                    <text x="75" y="45" class="chart-text" text-anchor="middle">मंगल</text>
+                    <text x="50" y="80" class="chart-text" text-anchor="middle">शनि</text>
+                    <text x="15" y="15" class="chart-text" text-anchor="middle">राहू</text>
+                </svg>
+            </div>
+
+            <div id="modulesGrid" class="locked-state">
+                <h2 style="text-align: center; color: var(--saffron); margin: 40px 0;">/// दैवीय सेवाएँ (SERVICES)</h2>
+                <div class="grid">
+                    <div class="card" onclick="openService('Ank Jyotish')">
+                        <div class="card-icon">🔢</div>
+                        <h3>अंक ज्योतिष</h3>
+                        <p>Numerology Report</p>
+                    </div>
+                    <div class="card" onclick="openHastrekha()">
+                        <div class="card-icon">✋</div>
+                        <h3>AI हस्तरेखा</h3>
+                        <p>Palm Scanning</p>
+                    </div>
+                    <div class="card" onclick="openService('Lal Kitab')">
+                        <div class="card-icon">📕</div>
+                        <h3>लाल किताब</h3>
+                        <p>Remedies (उपाय)</p>
+                    </div>
+                    <div class="card" onclick="openService('Kundli Milan')">
+                        <div class="card-icon">❤️</div>
+                        <h3>कुंडली मिलान</h3>
+                        <p>Matchmaking</p>
+                    </div>
+                </div>
+                
+                <h2 style="text-align: center; color: var(--saffron); margin: 60px 0 30px;">/// सिद्ध गुरु (VERIFIED ASTROLOGERS)</h2>
+                <div class="grid">
+                    <div class="card" onclick="openGuruProfile()">
+                        <img src="https://via.placeholder.com/100/FFD700/000000?text=GURU" style="border-radius:50%; border:2px solid var(--gold);">
+                        <h3 style="color:white;">आचार्य उज्ज्वल तिवारी</h3>
+                        <p style="color:var(--saffron);">काशी (वाराणसी) | 15 वर्ष अनुभव</p>
+                        <button style="margin-top:10px; padding:5px 15px; border:1px solid var(--gold); background:none; color:var(--gold);">प्रोफाइल देखें</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="ad-sidebar">[ AD SPACE ]</div>
+    </div>
+
+    <div class="modal-overlay" id="hastrekhaModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('hastrekhaModal')">×</span>
+            <h3 style="color:var(--gold);">AI PALM SCANNER</h3>
+            <p style="color:#ccc;">Upload a clear photo of your palm.</p>
+            
+            <div id="scanUI">
+                <input type="file" id="palmInput" style="margin: 20px 0; color:white;">
+                <div id="scanningBar" style="height:4px; width:0%; background:var(--saffron); transition:2s; margin:10px auto;"></div>
+                <button class="btn-submit" onclick="processPalm()">UPLOAD & SCAN</button>
+            </div>
+
+            <div id="emailRequestUI" style="display:none;">
+                <p style="color:#0f0;">Scan Complete! 99.9% Accuracy.</p>
+                <input type="email" class="astro-input" placeholder="Enter Email for PDF Report" style="margin:10px 0;">
+                <button class="btn-submit">SEND REPORT</button>
+            </div>
         </div>
     </div>
 
-    <section class="hero">
-        <div class="om-symbol" style="font-size: 3rem; color: var(--saffron); margin-bottom: 10px;">ॐ</div>
-        <h1>Your Cosmic Blueprint</h1>
+    <div class="guru-full-profile" id="guruPage">
+        <div class="guru-header">
+            <button onclick="closeGuruPage()" style="position:absolute; top:20px; left:20px; background:none; border:1px solid var(--gold); color:var(--gold); padding:5px 15px;">← Back</button>
+            <img src="https://via.placeholder.com/400x600/FFD700/000000?text=ACHARYA+UJJWAL+JI" class="guru-img-large">
+            <h1 style="color:var(--gold); font-family:var(--font-hindi); margin-top:20px;">आचार्य उज्ज्वल तिवारी</h1>
+            <p style="color:var(--saffron);">वैदिक ज्योतिष विशेषज्ञ | काशी</p>
+        </div>
         
-        <div class="user-form-container" id="inputForm">
-            <h3 style="color:white; margin-bottom:20px; font-family: var(--font-tech);">ENTER BIRTH DETAILS</h3>
-            <div class="input-group">
-                <label class="input-label">FULL NAME</label>
-                <input type="text" id="userName" class="hero-input" placeholder="Eg. Avinash Sarkar">
-            </div>
-            <div class="input-group">
-                <label class="input-label">DATE OF BIRTH</label>
-                <input type="date" id="userDob" class="hero-input">
-            </div>
-            <div class="input-group">
-                <label class="input-label">BIRTH TIME</label>
-                <input type="time" class="hero-input">
-            </div>
-            <div class="input-group">
-                <label class="input-label">PLACE OF BIRTH</label>
-                <input type="text" class="hero-input" placeholder="City, State">
-            </div>
-            <button class="btn-generate" onclick="generateKundli()">GENERATE JANAMPATRI</button>
-        </div>
-
-        <div class="kundli-result-box" id="resultBox">
-            <div class="user-name-display" id="displayName">AVINASH SARKAR</div>
-            <p style="color: var(--saffron); font-size: 0.9rem;">Lagna Chart (D1)</p>
+        <div class="guru-info">
+            <p class="shloka">"ॐ गजाननं भूतगणादि सेवितं, कपित्थ जम्बूफलसार भक्षितम्..."</p>
             
-            <div class="kundli-container">
-                <svg class="kundli-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <rect x="0" y="0" width="100" height="100" />
-                    <line x1="0" y1="0" x2="100" y2="100" />
-                    <line x1="100" y1="0" x2="0" y2="100" />
-                    <line x1="50" y1="0" x2="0" y2="50" />
-                    <line x1="50" y1="0" x2="100" y2="50" />
-                    <line x1="0" y1="50" x2="50" y2="100" />
-                    <line x1="100" y1="50" x2="50" y2="100" />
-                    <text x="50" y="25" class="planet" text-anchor="middle">Su</text>
-                    <text x="25" y="45" class="planet" text-anchor="middle">Mo</text>
-                    <text x="75" y="45" class="planet" text-anchor="middle">Ma</text>
-                    <text x="50" y="80" class="planet" text-anchor="middle">Sa</text>
-                    <text x="15" y="15" class="planet" text-anchor="middle">Ra</text>
-                </svg>
+            <div class="guru-details-grid">
+                <div class="detail-item">
+                    <h4>EDUCATION</h4>
+                    <p>शास्त्री (BHU)</p>
+                </div>
+                <div class="detail-item">
+                    <h4>EXPERIENCE</h4>
+                    <p>15+ Years</p>
+                </div>
+                <div class="detail-item">
+                    <h4>EXPERTISE</h4>
+                    <p>वास्तु & कुंडली</p>
+                </div>
             </div>
-            <p style="color: #ccc; max-width: 500px; margin-top: 20px;">
-                Your Janampatri has been generated. <br>
-                <span style="color: var(--gold);" id="rashiText"></span> <br>
-                <span style="font-size: 0.8rem; color: #888;">Select a module below to get detailed analysis.</span>
+
+            <h3>About Acharya Ji</h3>
+            <p style="color:#ccc; line-height:1.6; margin-top:15px;">
+                Acharya Ujjwal Tiwari is a renowned Vedic Astrologer from the holy city of Varanasi (Kashi). 
+                Having completed his Shastri degree from Banaras Hindu University (BHU), he specializes in 
+                Kundli Milan, Vastu Shastra, and Vedic Remedies. His predictions have helped thousands 
+                find peace and prosperity.
             </p>
-            <button class="btn-generate" onclick="location.reload()" style="margin-top: 20px; width: auto; padding: 10px 30px;">NEW KUNDLI</button>
+
+            <button class="btn-submit" style="max-width:300px; margin: 40px auto;">BOOK CONSULTATION</button>
         </div>
-    </section>
+    </div>
 
-    <section class="features" id="services">
-        <h2 class="section-title">/// DIVINE <span>MODULES</span></h2>
-        <div class="grid">
-            <div class="card" onclick="openPreview('Vedic Kundli', '✨', 'Get a complete analysis of your birth chart, planetary positions, and doshas.')">
-                <div class="card-icon">✨</div>
-                <h3>Vedic Kundli</h3>
-                <p>Complete birth chart analysis.</p>
-            </div>
-            <div class="card" onclick="openPreview('Ank Jyotish', '🔢', 'Uncover the hidden meaning of your birth numbers and their impact on your life path.')">
-                <div class="card-icon">🔢</div>
-                <h3>Ank Jyotish</h3>
-                <p>Numerology predictions.</p>
-            </div>
-            <div class="card" onclick="openPreview('Kundli Milan', '❤️', 'Comprehensive compatibility report for marriage and partnerships based on 36 Gunas.')">
-                <div class="card-icon">❤️</div>
-                <h3>Kundli Milan</h3>
-                <p>Matchmaking reports.</p>
-            </div>
-            <div class="card" onclick="openPreview('Lal Kitab', '📕', 'Simple and effective remedial measures to overcome planetary afflictions.')">
-                <div class="card-icon">📕</div>
-                <h3>Lal Kitab</h3>
-                <p>Powerful remedies (Upay).</p>
-            </div>
-            <div class="card" onclick="openPreview('Bhrigu Samhita', '📜', 'Insights from the oldest astrological classic written by Sage Bhrigu.')">
-                <div class="card-icon">📜</div>
-                <h3>Bhrigu Samhita</h3>
-                <p>Ancient sage insights.</p>
-            </div>
-            <div class="card" onclick="openPreview('Palm Reading', '✋', 'AI-based analysis of your palm lines - Life Line, Heart Line, and Fate Line.')">
-                <div class="card-icon">✋</div>
-                <h3>AI Hastrekha</h3>
-                <p>AI Palm reading.</p>
-            </div>
-            <div class="card" onclick="openPreview('Hora Muhurat', '⏳', 'Find the most auspicious time (Shubh Muhurat) to start new ventures.')">
-                <div class="card-icon">⏳</div>
-                <h3>Hora Muhurat</h3>
-                <p>Find auspicious times.</p>
-            </div>
-            <div class="card" onclick="openPreview('Vastu Shastra', '🏠', 'Balance the energies of your living space for health, wealth, and prosperity.')">
-                <div class="card-icon">🏠</div>
-                <h3>Vastu Shastra</h3>
-                <p>Home energy balancing.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="directory-section">
-        <h2 class="section-title">/// VERIFIED <span>GURUS</span></h2>
-        <div class="grid astro-grid">
-            <div class="astro-card">
-                <img src="https://via.placeholder.com/100/FFD700/000000?text=GURU" alt="Guru" class="astro-img">
-                <div class="astro-name">Acharya Ujjwal Tiwari</div>
-                <div class="astro-spec">Vedic Expert | 15 Yrs Exp</div>
-                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐⭐ (5.0)</div>
-                <button class="btn-profile">VIEW PROFILE</button>
-            </div>
-            <div class="astro-card">
-                <img src="https://via.placeholder.com/100/FF9933/000000?text=SHASTRI" alt="Guru" class="astro-img">
-                <div class="astro-name">Dr. A. K. Mishra</div>
-                <div class="astro-spec">Nadi Jyotish | 22 Yrs Exp</div>
-                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐⭐ (4.9)</div>
-                <button class="btn-profile">VIEW PROFILE</button>
-            </div>
-            <div class="astro-card">
-                <img src="https://via.placeholder.com/100/C0C0C0/000000?text=TAROT" alt="Guru" class="astro-img">
-                <div class="astro-name">Ms. Riya Sharma</div>
-                <div class="astro-spec">Tarot & Healing | 8 Yrs Exp</div>
-                <div style="color: var(--saffron); margin-bottom: 15px;">⭐⭐⭐⭐☆ (4.7)</div>
-                <button class="btn-profile">VIEW PROFILE</button>
-            </div>
-        </div>
-    </section>
-
-    <section class="register-section">
-        <div style="text-align: center;">
-            <h2 style="font-family: var(--font-hindi); color: var(--gold); font-size: 2.5rem; margin-bottom: 10px;">ज्योतिष पंजीकरण</h2>
-            <p style="color: #ccc;">Are you an Astrologer? Join our platform and reach millions.</p>
-        </div>
-
-        <form action="https://formspree.io/f/mwvnpzla" method="POST" class="form-grid">
-            <input type="text" name="guru_name" class="astro-input" placeholder="Full Name (Shastri/Pandit...)" required>
-            <input type="text" name="experience" class="astro-input" placeholder="Experience (Years)" required>
-            <input type="email" name="email" class="astro-input" placeholder="Email Address" required>
-            <input type="text" name="phone" class="astro-input" placeholder="Mobile Number (+91...)" required>
-            
-            <select name="specialty" class="astro-input full-width" style="background: #0f0500;">
-                <option value="" disabled selected>Select Specialization...</option>
-                <option value="Vedic">Vedic Astrology</option>
-                <option value="Numerology">Numerology (Ank Jyotish)</option>
-                <option value="Tarot">Tarot Reading</option>
-                <option value="Vastu">Vastu Shastra</option>
-            </select>
-            <textarea name="bio" rows="4" class="astro-input full-width" placeholder="About You (Short Bio)..."></textarea>
-            <button type="submit" class="btn-register">REGISTER AS ASTROLOGER</button>
-        </form>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Bhagya Aapka. All Rights Reserved.</p>
+    <div class="footer-ad">[ GOOGLE AD SENSE FOOTER ]</div>
+    <footer style="background:#000; text-align:center; padding:20px; color:#444;">
+        &copy; 2026 Bhagya Aapka.
     </footer>
 
     <script>
-        let currentService = "";
-
-        // 1. OPEN MODULE PREVIEW (No Email yet)
-        function openPreview(title, icon, desc) {
-            currentService = title;
-            document.getElementById('previewModal').style.display = 'flex';
-            document.getElementById('previewTitle').innerText = title;
-            document.getElementById('previewIcon').innerText = icon;
-            document.getElementById('previewDesc').innerText = desc;
+        // 1. ZODIAC BACKGROUND
+        const zodiacs = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓', '★', '✨'];
+        const container = document.getElementById('zodiacContainer');
+        
+        for(let i=0; i<30; i++) {
+            let el = document.createElement('div');
+            el.classList.add('floating-symbol');
+            el.innerText = zodiacs[Math.floor(Math.random() * zodiacs.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (15 + Math.random() * 20) + 's';
+            el.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(el);
         }
 
-        // 2. TRIGGER EMAIL LOCK (User clicked Download)
-        function triggerEmailLock() {
-            document.getElementById('previewModal').style.display = 'none'; // Close Preview
-            document.getElementById('emailModal').style.display = 'flex';   // Open Lock
-            document.getElementById('verifyServiceName').innerText = currentService;
-            document.getElementById('hiddenServiceField').value = currentService;
+        // 2. ACTIVATE DASHBOARD (Jadu)
+        function activateDashboard() {
+            const name = document.getElementById('name').value;
+            const city = document.getElementById('city').value;
+            
+            if(!name || !city) { alert("कृपया विवरण भरें (Please fill details)"); return; }
+
+            // Unlock Modules
+            document.getElementById('modulesGrid').classList.remove('locked-state');
+            document.getElementById('modulesGrid').classList.add('unlocked-state');
+            
+            // Show Chart
+            document.getElementById('kundliSection').style.display = 'block';
+            document.getElementById('userHeaderName').innerText = `जातक: ${name.toUpperCase()} | स्थान: ${city.toUpperCase()}`;
+            
+            // Scroll down
+            document.getElementById('kundliSection').scrollIntoView();
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+        // 3. HASTREKHA SCANNING LOGIC
+        function openHastrekha() {
+            document.getElementById('hastrekhaModal').style.display = 'flex';
+        }
+        function processPalm() {
+            const file = document.getElementById('palmInput').value;
+            if(!file) { alert("Upload Image First"); return; }
+            
+            // Simulate Scan
+            document.getElementById('scanningBar').style.width = '100%';
+            setTimeout(() => {
+                document.getElementById('scanUI').style.display = 'none';
+                document.getElementById('emailRequestUI').style.display = 'block';
+            }, 2000);
         }
 
-        // KUNDLI GENERATION & THEME LOGIC
-        function generateKundli() {
-            const name = document.getElementById('userName').value;
-            const dob = document.getElementById('userDob').value;
+        // 4. GURU PROFILE LOGIC
+        function openGuruProfile() { document.getElementById('guruPage').style.display = 'block'; }
+        function closeGuruPage() { document.getElementById('guruPage').style.display = 'none'; }
 
-            if(!name || !dob) {
-                alert("Please enter Name and Date of Birth!");
-                return;
-            }
+        // UTILS
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function openService(name) { alert(name + " के लिए ईमेल वेरिफिकेशन आवश्यक है (Locked)"); }
 
-            const date = new Date(dob);
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            
-            let rashi = "", colorPrimary = "", colorSec = "", icon = "", rashiNameHindi = "";
-
-            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) { rashi = "Aries"; rashiNameHindi = "मेष"; icon = "♈"; colorPrimary = "#ff4500"; colorSec = "#ffaa00"; }
-            else if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) { rashi = "Taurus"; rashiNameHindi = "वृषभ"; icon = "♉"; colorPrimary = "#2ecc71"; colorSec = "#ffffff"; }
-            else if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) { rashi = "Gemini"; rashiNameHindi = "मिथुन"; icon = "♊"; colorPrimary = "#32cd32"; colorSec = "#ffff00"; }
-            else if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) { rashi = "Cancer"; rashiNameHindi = "कर्क"; icon = "♋"; colorPrimary = "#e0e0e0"; colorSec = "#b0c4de"; }
-            else if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) { rashi = "Leo"; rashiNameHindi = "सिंह"; icon = "♌"; colorPrimary = "#ff8c00"; colorSec = "#ffd700"; }
-            else if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) { rashi = "Virgo"; rashiNameHindi = "कन्या"; icon = "♍"; colorPrimary = "#228b22"; colorSec = "#98fb98"; }
-            else if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) { rashi = "Libra"; rashiNameHindi = "तुला"; icon = "♎"; colorPrimary = "#87ceeb"; colorSec = "#f0f8ff"; }
-            else if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) { rashi = "Scorpio"; rashiNameHindi = "वृश्चिक"; icon = "♏"; colorPrimary = "#8b0000"; colorSec = "#ff0000"; }
-            else if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) { rashi = "Sagittarius"; rashiNameHindi = "धनु"; icon = "♐"; colorPrimary = "#ffd700"; colorSec = "#ffa500"; }
-            else if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) { rashi = "Capricorn"; rashiNameHindi = "मकर"; icon = "♑"; colorPrimary = "#00008b"; colorSec = "#4169e1"; }
-            else if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) { rashi = "Aquarius"; rashiNameHindi = "कुंभ"; icon = "♒"; colorPrimary = "#00bfff"; colorSec = "#1e90ff"; }
-            else { rashi = "Pisces"; rashiNameHindi = "मीन"; icon = "♓"; colorPrimary = "#ff1493"; colorSec = "#ffb6c1"; }
-
-            const root = document.documentElement;
-            root.style.setProperty('--saffron', colorPrimary);
-            root.style.setProperty('--gold', colorSec);
-
-            document.getElementById('inputForm').style.display = 'none';
-            document.getElementById('resultBox').style.display = 'block';
-            
-            document.getElementById('displayName').innerText = name.toUpperCase();
-            document.getElementById('rashiText').innerText = "Your Dominant Sign: " + rashiNameHindi;
-            
-            document.getElementById('rashi-badge').style.display = 'block';
-            document.getElementById('rashi-icon-display').innerText = icon;
-            document.getElementById('rashi-name-display').innerText = rashi;
-            document.getElementById('resultBox').scrollIntoView({behavior: 'smooth'});
+        // 5. GOOGLE TRANSLATE
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'hi,mr,ta,te,bn,gu', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
         }
     </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
