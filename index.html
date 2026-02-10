@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
-        /* --- RESET & CORE --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; cursor: none; /* Custom Cursor Active */ }
+        /* --- CORE SETTINGS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; cursor: none; }
         
         :root {
             --bg-dark: #050a14;
@@ -30,12 +30,12 @@
             overflow-x: hidden; 
         }
 
-        /* --- CUSTOM CURSOR --- */
+        /* CUSTOM CURSOR */
         #cursor {
             position: fixed; width: 30px; height: 30px;
             border: 2px solid var(--neon-blue); border-radius: 50%;
             pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
-            transition: transform 0.1s, width 0.3s, height 0.3s; mix-blend-mode: difference;
+            transition: transform 0.1s; mix-blend-mode: difference;
         }
         #cursor::after {
             content: ''; position: absolute; top: 50%; left: 50%;
@@ -43,7 +43,7 @@
             transform: translate(-50%, -50%); border-radius: 50%;
         }
 
-        /* --- ANIMATED BACKGROUND --- */
+        /* ANIMATED BACKGROUND */
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background: linear-gradient(45deg, #020c1b, #0a192f, #1c0b2b, #020c1b);
@@ -61,7 +61,7 @@
              background-size: 40px 40px; opacity: 0.4;
         }
 
-        /* --- NAVIGATION --- */
+        /* NAVIGATION */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 40px; position: fixed; width: 100%; top: 0;
@@ -89,23 +89,15 @@
         @keyframes spinRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .header-info { text-align: right; font-family: var(--font-digital); }
-        .clock-container { color: var(--neon-blue); font-size: 1rem; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; font-weight: bold; }
-        .clock-day { color: var(--text-muted); font-size: 0.9rem; }
+        .clock-container { color: var(--neon-blue); font-size: 1rem; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; font-weight: bold; justify-content: flex-end; }
         .visitor-counter { color: var(--text-muted); margin-top: 4px; font-size: 0.75rem; font-family: var(--font-tech); letter-spacing: 1px; }
 
-        /* --- HERO SECTION --- */
+        /* HERO */
         .hero {
             min-height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
             padding: 140px 20px 80px; position: relative;
         }
-
-        .tech-badge {
-            background: rgba(0, 243, 255, 0.1); color: var(--neon-blue);
-            padding: 8px 16px; font-size: 0.85rem; border-radius: 4px; border: 1px solid rgba(0,243,255,0.3);
-            font-family: var(--font-digital); display: inline-block; margin-bottom: 25px; font-weight: bold; letter-spacing: 2px;
-        }
-
         .hero h1 { 
             font-family: var(--font-digital); font-size: 3.5rem; 
             line-height: 1.1; margin-bottom: 20px; text-transform: uppercase;
@@ -115,7 +107,7 @@
         .cursor-blink { animation: blink 0.8s infinite; color: var(--neon-blue); margin-left: 5px; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* --- DASHBOARD (Terminal + Stats) --- */
+        /* DASHBOARD */
         .dashboard-container {
             display: flex; gap: 20px; width: 100%; max-width: 900px;
             margin-top: 20px; margin-bottom: 40px;
@@ -128,7 +120,6 @@
             padding: 15px; text-align: left;
             font-family: var(--font-code); font-size: 0.8rem; color: #0f0;
             overflow: hidden; position: relative;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.05);
         }
         .scan-line {
             position: absolute; top: 0; left: 0; width: 100%; height: 20px;
@@ -140,47 +131,30 @@
         .stats-grid { flex: 1; min-width: 250px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .stat-box {
             background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.15);
-            padding: 10px 15px; border-radius: 4px; text-align: left; height: 75px;
+            padding: 10px; border-radius: 4px; text-align: left; height: 75px;
             display: flex; flex-direction: column; justify-content: center;
         }
-        .stat-title { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 5px; font-weight: bold; }
-        .stat-value { font-family: var(--font-digital); font-size: 1.1rem; color: var(--text-main); margin-bottom: 5px; }
-        .progress-bar { width: 100%; height: 3px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden; }
-        .fill { height: 100%; background: var(--neon-blue); transition: width 0.8s ease-out; }
+        .stat-value { font-family: var(--font-digital); font-size: 1.1rem; color: var(--text-main); }
+        .fill { height: 3px; background: var(--neon-blue); width: 0%; transition: width 0.8s ease-out; margin-top: 5px; }
 
-        .ad-space {
-            width: 100%; max-width: 728px; height: 90px;
-            background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(255,255,255,0.2);
-            margin: 20px auto; display: flex; align-items: center; justify-content: center;
-            color: #666; font-family: var(--font-code); letter-spacing: 2px; font-size: 0.9rem;
-        }
-
-        /* --- PRODUCTS --- */
+        /* PRODUCTS */
         .products { padding: 80px 5%; position: relative; z-index: 1; }
-        .section-header { 
-            text-align: center; margin-bottom: 60px; font-family: var(--font-digital); 
-            color: white; text-transform: uppercase; letter-spacing: 3px; font-size: 2.2rem;
-        }
-        .section-header span { color: var(--neon-blue); }
+        .section-header { text-align: center; margin-bottom: 60px; font-family: var(--font-digital); color: white; font-size: 2.2rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
         .card {
             background: var(--bg-card); border: 1px solid rgba(0, 243, 255, 0.1);
-            padding: 35px; border-radius: 12px; backdrop-filter: blur(10px);
-            transition: 0.4s; box-shadow: 0 10px 30px -15px #000; position: relative;
+            padding: 35px; border-radius: 12px; transition: 0.4s; position: relative;
         }
         .card:hover { transform: translateY(-10px); border-color: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 243, 255, 0.2) inset; }
         .card h3 { font-family: var(--font-digital); font-size: 1.6rem; margin-bottom: 15px; color: white; }
-        .card p { color: var(--text-muted); line-height: 1.6; font-size: 1.1rem; margin-bottom: 25px; }
         .card.gold-featured { border: 1px solid var(--gold); background: rgba(26, 21, 0, 0.7); }
         .card.gold-featured h3 { color: var(--gold); }
         .btn-gold {
             width: 100%; padding: 15px; background: linear-gradient(to right, var(--gold), #ffc400);
-            color: black; font-family: var(--font-digital); font-weight: 800; border: none;
-            cursor: none; text-transform: uppercase; letter-spacing: 1.5px;
+            color: black; font-family: var(--font-digital); font-weight: 800; border: none; cursor: none;
             transition: 0.3s; clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
         }
         .btn-gold:hover { filter: brightness(1.2); box-shadow: 0 0 30px var(--gold); }
-        
         .btn-tech {
             width: 100%; padding: 12px; background: transparent; border: 1px solid var(--neon-blue); 
             color: var(--neon-blue); font-family: var(--font-digital); cursor: none; transition:0.3s;
@@ -188,48 +162,20 @@
         }
         .btn-tech:hover { background: var(--neon-blue); color: black; box-shadow: 0 0 15px var(--neon-blue); }
 
-        /* --- CONTACT FORM SECTION --- */
-        .contact-section { padding: 80px 20px; text-align: center; background: rgba(0,0,0,0.2); position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.05); }
-        .form-container {
-            max-width: 600px; margin: 0 auto; background: var(--bg-card);
-            padding: 40px; border-radius: 10px; border: 1px solid rgba(0, 243, 255, 0.1);
-            text-align: left;
-        }
-        .form-label { color: var(--neon-blue); font-size: 0.8rem; font-family: var(--font-digital); margin-bottom: 8px; display: block; letter-spacing: 1px; }
-        .form-input {
-            width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid #333;
-            color: white; border-radius: 4px; outline: none; margin-bottom: 20px; font-family: var(--font-tech); font-size: 1rem;
-            transition: 0.3s;
-        }
-        .form-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 243, 255, 0.1); }
-        .submit-btn {
-            width: 100%; padding: 15px; background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue);
-            font-weight: bold; font-family: var(--font-digital); letter-spacing: 2px; cursor: none;
-            transition: 0.3s; text-transform: uppercase;
-        }
-        .submit-btn:hover { background: var(--neon-blue); color: black; box-shadow: 0 0 20px var(--neon-blue); }
+        /* FORM */
+        .contact-section { padding: 80px 20px; text-align: center; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); }
+        .form-container { max-width: 600px; margin: 0 auto; background: var(--bg-card); padding: 40px; border-radius: 10px; border: 1px solid rgba(0, 243, 255, 0.1); text-align: left; }
+        .form-input { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid #333; color: white; margin-bottom: 20px; }
+        .submit-btn { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); font-weight: bold; cursor: none; transition: 0.3s; }
+        .submit-btn:hover { background: var(--neon-blue); color: black; }
 
-        /* --- FOOTER --- */
-        footer {
-            margin-top: 0; padding: 60px 20px; text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(2, 5, 10, 0.95);
-            position: relative; z-index: 1;
-        }
-        .footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 10px; font-size: 0.9rem; transition: 0.3s; }
-        .footer-links a:hover { color: var(--neon-blue); }
-        .credit-box {
-            display: inline-block; padding: 10px 25px;
-            border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 4px;
-            background: rgba(0, 243, 255, 0.05); margin-top: 30px;
-        }
-        .credit-text { font-family: var(--font-tech); font-size: 1rem; color: var(--text-muted); }
-        .credit-name { color: var(--neon-blue); font-weight: 700; font-family: var(--font-digital); }
+        /* FOOTER */
+        footer { padding: 60px 20px; text-align: center; background: rgba(2, 5, 10, 0.95); border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
 
-        /* MOBILE FIXES */
         @media(max-width: 768px) {
             .header-info { display: none; }
-            .hero h1 { font-size: 2.2rem; min-height: 100px; }
+            .hero { padding-top: 120px; }
             .dashboard-container { flex-direction: column; }
             .terminal-box { height: 120px; }
             nav { padding: 15px; }
@@ -241,7 +187,6 @@
 <body>
 
     <div id="cursor"></div>
-
     <div class="animated-bg"></div>
     <div class="grid-overlay"></div>
 
@@ -252,12 +197,12 @@
         </a>
         <div class="header-info">
             <div class="clock-container" id="digital-clock">LOADING...</div>
-            <div class="visitor-counter">SYSTEM STATUS: <span style="color:#0f0">ONLINE</span> | VISITORS: <span id="visitor-count" style="color:#0f0; font-weight:bold;">842</span></div>
+            <div class="visitor-counter">SYSTEM STATUS: <span style="color:#0f0">ONLINE</span> | VISITORS: <span id="visitor-count" style="color:#0f0">842</span></div>
         </div>
     </nav>
 
     <section class="hero">
-        <div class="tech-badge">ENTERPRISE AUTOMATION v4.0</div>
+        <div style="font-family: var(--font-digital); color: var(--neon-blue); margin-bottom: 20px; letter-spacing: 2px;">ENTERPRISE AUTOMATION v4.0</div>
         
         <h1 id="typewriter"></h1>
         
@@ -268,35 +213,33 @@
         <div class="dashboard-container">
             <div class="terminal-box">
                 <div class="scan-line"></div>
-                <div id="terminal-content">
-                    <p>> System Boot sequence initiated...</p>
-                </div>
+                <div id="terminal-content"></div>
             </div>
             <div class="stats-grid">
                 <div class="stat-box">
-                    <div class="stat-title">SERVER LOAD</div>
+                    <div style="font-size:0.7rem; color:#888;">CPU LOAD</div>
                     <div class="stat-value" id="cpu-val">12%</div>
-                    <div class="progress-bar"><div class="fill" style="width: 12%"></div></div>
+                    <div class="fill" style="width: 12%"></div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-title">MEMORY USAGE</div>
+                    <div style="font-size:0.7rem; color:#888;">MEMORY</div>
                     <div class="stat-value" id="mem-val">4.2 GB</div>
-                    <div class="progress-bar"><div class="fill" style="width: 40%"></div></div>
+                    <div class="fill" style="width: 40%"></div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-title">NETWORK SPEED</div>
+                    <div style="font-size:0.7rem; color:#888;">NETWORK</div>
                     <div class="stat-value" id="net-val">1.2 TB/s</div>
-                    <div class="progress-bar"><div class="fill" style="width: 85%"></div></div>
+                    <div class="fill" style="width: 85%"></div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-title">ENCRYPTION</div>
+                    <div style="font-size:0.7rem; color:#888;">SECURITY</div>
                     <div class="stat-value" style="color: var(--gold);">AES-256</div>
-                    <div class="progress-bar"><div class="fill" style="width: 100%; background: var(--gold);"></div></div>
+                    <div class="fill" style="width: 100%; background: var(--gold);"></div>
                 </div>
             </div>
         </div>
         
-        <div class="ad-space">[ Google AdSense Banner 728x90 ]</div>
+        <div style="width: 100%; max-width: 728px; height: 90px; background: rgba(0,0,0,0.3); border: 1px dashed #444; margin: 20px auto; display:flex; align-items:center; justify-content:center; color:#555;">[ Google AdSense Banner ]</div>
     </section>
 
     <section class="products" id="services">
@@ -304,42 +247,30 @@
         
         <div class="grid">
             <div class="card">
-                <div class="tech-badge">BROADCAST AUTOMATION</div>
                 <h3>V-Monitor</h3>
-                <p>Engineered for ultimate control over <strong>vMix RunOrder</strong>. Manage complex broadcast schedules, automate graphic triggers, and ensure flawless rundown execution.</p>
+                <p>Engineered for ultimate control over <strong>vMix RunOrder</strong>. Manage complex broadcast schedules and automate graphic triggers.</p>
                 <button class="btn-tech" onclick="window.location.href='v-monitor.html'">VIEW SYSTEM DETAILS</button>
             </div>
-
             <div class="card">
-                <div class="tech-badge">SECURE ENCRYPTED COMMS</div>
                 <h3>V-Call</h3>
-                <p>The premium choice for professional communication. Features ultra-low latency HD video, military-grade end-to-end encryption, and stable connectivity for mission-critical operations.</p>
+                <p>The premium choice for professional communication. Ultra-low latency HD video and end-to-end encryption.</p>
             </div>
-            
             <div class="card gold-featured">
-                <div class="tech-badge" style="color: var(--gold); background: rgba(255,215,0,0.15); border-color: var(--gold);">AI ASTROLOGY CORE</div>
+                <div style="color: var(--gold); font-size: 0.8rem; margin-bottom: 10px;">AI ASTROLOGY CORE</div>
                 <h3>Bhagya Aapka</h3>
-                <p>A revolutionary platform decoding your future. Combining ancient Vedic wisdom with modern AI to provide deeply personalized life guidance.</p>
+                <p>A revolutionary platform decoding your future. Combining Vedic wisdom with AI.</p>
                 <button class="btn-gold" onclick="window.location.href='bhagya-aapka.html'">LAUNCH PORTAL</button>
             </div>
         </div>
-        <div class="ad-space" style="margin-top: 80px; height: 150px;">[ Responsive Ad Area ]</div>
     </section>
 
     <section class="contact-section" id="contact">
         <h2 class="section-header" style="font-size: 1.8rem;">/// INITIATE <span style="color: var(--neon-blue);">COMMUNICATION</span></h2>
-        
         <div class="form-container">
             <form action="https://formspree.io/f/mwvnpzla" method="POST">
-                <label class="form-label">IDENTITY / ORGANIZATION</label>
-                <input type="text" name="name" class="form-input" required placeholder="Enter Name">
-
-                <label class="form-label">DIGITAL ADDRESS (EMAIL)</label>
-                <input type="email" name="email" class="form-input" required placeholder="name@company.com">
-
-                <label class="form-label">TRANSMISSION DATA (MESSAGE)</label>
-                <textarea name="message" rows="5" class="form-input" required placeholder="Describe your project requirements..."></textarea>
-
+                <input type="text" name="name" class="form-input" required placeholder="Name / Org">
+                <input type="email" name="email" class="form-input" required placeholder="Email Address">
+                <textarea name="message" rows="5" class="form-input" required placeholder="Message Protocol..."></textarea>
                 <button type="submit" class="submit-btn">SEND ENCRYPTED MESSAGE</button>
             </form>
         </div>
@@ -347,81 +278,90 @@
 
     <footer>
         <div class="footer-links">
-            <a href="privacy.html">Privacy Policy</a> | 
-            <a href="#">Terms of Service</a> | 
-            <a href="#contact">Support</a>
+            <a href="privacy.html">Privacy Policy</a> | <a href="#">Terms</a>
         </div>
-        
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 20px;">&copy; 2026 V-TechSoft Systems. All Global Rights Reserved.</p>
-        
-        <div class="credit-box">
-            <p class="credit-text">Designed & Developed by <span class="credit-name">Avinash Sarkar</span></p>
+        <p style="color: #666; font-size: 0.9rem; margin-top: 20px;">&copy; 2026 V-TechSoft Systems.</p>
+        <div style="margin-top: 20px; border: 1px solid #00f3ff; display:inline-block; padding: 5px 15px; border-radius:4px; color:#00f3ff;">
+            Designed & Developed by <strong>Avinash Sarkar</strong>
         </div>
     </footer>
 
     <script>
-        // 1. CUSTOM CURSOR
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // 2. CLOCK
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
-            const dayString = now.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
-            document.getElementById('digital-clock').innerHTML = `<span class="clock-day">${dayString}</span> ${timeString}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // 3. TYPEWRITER
-        const text = "FUTURE PROOF AUTOMATION";
-        const typeWriterElement = document.getElementById('typewriter');
-        let i = 0;
-        function typeWriter() {
-            if (i < text.length) {
-                typeWriterElement.innerHTML = text.substring(0, i+1) + '<span class="cursor-blink">_</span>';
-                // 4. TERMINAL LOGS
-        const terminal = document.getElementById('terminal-content');
-        const logs = [
-            "> Establishing secure connection...",
-            "> V-Monitor Module... [LOADED]",
-            "> V-Call Protocols... [ACTIVE]",
-            "> Analyzing Visitor Data...",
-            "> Optimization Complete.",
-            "> Waiting for user input..."
-        ];
-        let logIndex = 0;
-        function addLog() {
-            if (logIndex < logs.length) {
-                const p = document.createElement('p');
-                p.innerText = logs[logIndex];
-                terminal.appendChild(p);
-                logIndex++;
-            } else {
-                const randomLogs = ["> Syncing Data...", "> Ping: 24ms", "> Checking Nodes...", "> Status: OK"];
-                const p = document.createElement('p');
-                p.innerText = randomLogs[Math.floor(Math.random() * randomLogs.length)];
-                terminal.appendChild(p);
-                if(terminal.children.length > 5) terminal.removeChild(terminal.children[0]);
+        // Use DOMContentLoaded to ensure elements exist before script runs
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. CURSOR
+            const cursor = document.getElementById('cursor');
+            if(cursor) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                });
             }
-        }
-        setInterval(addLog, 1200);
 
-        // 5. LIVE STATS
-        setInterval(() => {
-            let cpu = Math.floor(Math.random() * 20) + 10;
-            document.getElementById('cpu-val').innerText = cpu + "%";
-            document.querySelectorAll('.fill')[0].style.width = cpu + "%";
-            let mem = (Math.random() * (4.5 - 4.1) + 4.1).toFixed(1);
-            document.getElementById('mem-val').innerText = mem + " GB";
-            let count = document.getElementById('visitor-count');
-            if(Math.random() > 0.8) count.innerText = parseInt(count.innerText) + 1;
-        }, 2500);
+            // 2. TYPEWRITER
+            const text = "FUTURE PROOF AUTOMATION";
+            const twElem = document.getElementById('typewriter');
+            let i = 0;
+            if (twElem) {
+                function typeWriter() {
+                    if (i < text.length) {
+                        twElem.innerHTML = text.substring(0, i+1) + '<span class="cursor-blink">_</span>';
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    }
+                }
+                setTimeout(typeWriter, 500);
+            }
+
+            // 3. CLOCK
+            function updateClock() {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
+                const dayStr = now.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase();
+                const clk = document.getElementById('digital-clock');
+                if(clk) {
+                    clk.innerHTML = `<span style="color:#8892b0; margin-right:10px;">${dayStr}</span> ${timeStr}`;
+                }
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // 4. TERMINAL
+            const term = document.getElementById('terminal-content');
+            if(term) {
+                const msgs = [
+                    "> System Booting...", "> V-Monitor Module... [OK]", 
+                    "> V-Call Protocols... [SECURE]", "> Connecting to server...", 
+                    "> Status: ONLINE"
+                ];
+                let idx = 0;
+                function addLog() {
+                    let msg = "";
+                    if (idx < msgs.length) {
+                        msg = msgs[idx];
+                        idx++;
+                    } else {
+                        const rnd = ["> Syncing...", "> Ping: 22ms", "> Optimizing...", "> Data: Stable"];
+                        msg = rnd[Math.floor(Math.random() * rnd.length)];
+                    }
+                    const p = document.createElement('p');
+                    p.innerText = msg;
+                    p.style.margin = "5px 0"; p.style.color = "#0f0";
+                    term.appendChild(p);
+                    if(term.children.length > 6) term.removeChild(term.children[0]);
+                }
+                setInterval(addLog, 1500);
+            }
+
+            // 5. STATS
+            setInterval(() => {
+                const cpu = document.getElementById('cpu-val');
+                if(cpu) {
+                    cpu.innerText = (Math.floor(Math.random() * 20) + 10) + "%";
+                }
+            }, 2000);
+        });
     </script>
-
 </body>
 </html>
