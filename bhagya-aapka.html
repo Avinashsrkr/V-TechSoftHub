@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bhagya Aapka | AI Vedic Astrology</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@400;600&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         /* --- DIVINE THEME VARIABLES --- */
         :root {
-            --bg-dark: #0f0500; /* Deep Dark Brown/Black */
-            --saffron: #FF9933; /* Bhagwa Color */
-            --gold: #FFD700;    /* Gold */
+            --bg-dark: #0f0500;
+            --saffron: #FF9933;
+            --gold: #FFD700;
             --text-light: #fff5e6;
             --font-divine: 'Cinzel', serif;
             --font-tech: 'Rajdhani', sans-serif;
+            --font-hindi: 'Noto Sans Devanagari', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -26,11 +27,11 @@
             overflow-x: hidden;
         }
 
-        /* --- ROTATING CHAKRA BACKGROUND --- */
+        /* --- ROTATING CHAKRA & TWINKLING STARS BACKGROUND --- */
         .chakra-bg {
             position: fixed; top: 50%; left: 50%; width: 90vw; height: 90vw;
             border: 1px dashed rgba(255, 153, 51, 0.15); border-radius: 50%;
-            transform: translate(-50%, -50%); z-index: -1;
+            transform: translate(-50%, -50%); z-index: -2;
             animation: rotateChakra 120s linear infinite;
         }
         .chakra-bg::before {
@@ -38,9 +39,23 @@
             border: 1px solid rgba(255, 215, 0, 0.1); border-radius: 50%;
             animation: rotateChakra 60s linear infinite reverse;
         }
+        .stars-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 5px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: twinkle 10s infinite linear;
+        }
         @keyframes rotateChakra { 
             0% { transform: translate(-50%, -50%) rotate(0deg); } 
             100% { transform: translate(-50%, -50%) rotate(360deg); } 
+        }
+        @keyframes twinkle {
+            from { background-position: 0 0, 40px 60px, 130px 270px; }
+            to { background-position: -550px -550px, -350px -350px, -250px -250px; }
         }
 
         /* --- NAVIGATION --- */
@@ -48,39 +63,40 @@
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
             background: linear-gradient(to bottom, rgba(15, 5, 0, 0.95), transparent);
             position: fixed; width: 100%; top: 0; z-index: 100;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 153, 51, 0.2);
         }
 
-        /* --- NEW DIVINE LOGO STYLE --- */
+        /* --- NEW HINDI/ENGLISH LOGO STYLE --- */
         .logo-container {
-            display: flex; align-items: center; text-decoration: none; gap: 12px;
+            display: flex; align-items: center; text-decoration: none; gap: 15px;
         }
-        .divine-logo {
-            width: 45px; height: 45px; position: relative;
+        .divine-logo-chakra {
+            width: 60px; height: 60px; position: relative;
             display: flex; justify-content: center; align-items: center;
         }
-        /* Outer Ring */
-        .circuit-ring {
+        /* Spinning Chakra Ring */
+        .chakra-ring-inner {
             position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 2px dashed var(--saffron);
-            box-shadow: 0 0 15px rgba(255, 153, 51, 0.3);
-            animation: spinSlow 20s linear infinite;
+            border: 3px dotted var(--saffron);
+            box-shadow: 0 0 20px rgba(255, 153, 51, 0.4);
+            animation: spinSlow 30s linear infinite;
         }
-        /* Inner Star */
-        .inner-star {
-            font-size: 1.5rem; color: var(--gold);
-            text-shadow: 0 0 10px var(--gold);
-            animation: pulseStar 3s ease-in-out infinite;
+        /* Center Text Group */
+        .logo-text-group {
+            display: flex; flex-direction: column; align-items: flex-start;
         }
-        .logo-text {
-            font-family: var(--font-divine); font-size: 1.4rem; color: var(--gold);
-            font-weight: 700; letter-spacing: 1px;
+        .logo-text-hindi {
+            font-family: var(--font-hindi); font-size: 1.4rem; color: var(--gold);
+            font-weight: 700; letter-spacing: 0.5px; line-height: 1;
+            text-shadow: 0 0 10px var(--saffron);
         }
-        .logo-text span { color: var(--saffron); }
+        .logo-text-english {
+            font-family: var(--font-divine); font-size: 0.9rem; color: var(--saffron);
+            font-weight: 400; letter-spacing: 2px; margin-top: -2px;
+        }
 
         /* Logo Animations */
         @keyframes spinSlow { 100% { transform: rotate(360deg); } }
-        @keyframes pulseStar { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.8; } }
 
         .back-link { 
             color: var(--saffron); text-decoration: none; border: 1px solid var(--saffron); 
@@ -88,12 +104,31 @@
         }
         .back-link:hover { background: var(--saffron); color: #000; box-shadow: 0 0 15px var(--saffron); }
 
+        /* --- SCROLLING RASHIFAL BANNER --- */
+        .rashifal-banner {
+            position: fixed; top: 80px; /* Below nav */
+            width: 100%; background: rgba(15, 5, 0, 0.9);
+            border-bottom: 1px solid var(--saffron); border-top: 1px solid var(--saffron);
+            padding: 8px 0; z-index: 90; overflow: hidden; white-space: nowrap;
+        }
+        .rashifal-content {
+            display: inline-block;
+            font-family: var(--font-hindi); color: var(--saffron);
+            font-size: 1rem; font-weight: 600;
+            animation: scrollRashifal 45s linear infinite;
+            padding-left: 100%;
+        }
+        @keyframes scrollRashifal {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
 
         /* --- HERO SECTION --- */
         .hero {
             min-height: 95vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            padding: 120px 20px 50px;
+            padding: 160px 20px 50px; /* Adjusted for banner */
             background: radial-gradient(circle at center, rgba(255, 153, 51, 0.05) 0%, transparent 60%);
         }
 
@@ -151,7 +186,6 @@
             box-shadow: 0 0 50px rgba(255, 215, 0, 0.1); position: relative; overflow: hidden;
         }
         
-        /* Shining Effect on Box */
         .cta-box::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to right, transparent, rgba(255,215,0,0.1), transparent);
@@ -189,24 +223,39 @@
             .email-input { width: 100%; margin-bottom: 15px; }
             .join-btn { width: 100%; }
             nav { padding: 15px; }
+            .rashifal-banner { top: 70px; }
+            .hero { padding-top: 140px; }
+            .logo-text-hindi { font-size: 1.2rem; }
+            .logo-text-english { font-size: 0.8rem; }
+            .divine-logo-chakra { width: 50px; height: 50px; }
         }
     </style>
 </head>
 <body>
 
     <div class="chakra-bg"></div>
+    <div class="stars-bg"></div>
 
     <nav>
         <a href="index.html" class="logo-container">
-            <div class="divine-logo">
-                <div class="circuit-ring"></div>
-                <div class="inner-star">✦</div>
+            <div class="divine-logo-chakra">
+                <div class="chakra-ring-inner"></div>
+                <span style="font-size: 1.8rem; color: var(--gold); text-shadow: 0 0 10px var(--saffron);">ॐ</span>
             </div>
-            <div class="logo-text">BHAGYA <span>AAPKA</span></div>
+            <div class="logo-text-group">
+                <div class="logo-text-hindi">भाग्य आपका</div>
+                <div class="logo-text-english">BHAGYA AAPKA</div>
+            </div>
         </a>
 
         <a href="index.html" class="back-link">← RETURN TO SYSTEM</a>
     </nav>
+
+    <div class="rashifal-banner">
+        <div class="rashifal-content">
+            || आज का राशिफल: 10 फरवरी 2026 | विक्रम संवत 2082 | मंगलवार || मेष: आज का दिन शुभ है, नए कार्य शुरू करें। | वृष: सेहत का ध्यान रखें, यात्रा टालें। | मिथुन: धन लाभ के योग हैं, परिवार में सुख-शांति रहेगी। | कर्क: कार्यक्षेत्र में सफलता मिलेगी, मान-सम्मान बढ़ेगा। | सिंह: पुराने मित्रों से मुलाकात होगी, मन प्रसन्न रहेगा। | कन्या: खर्चों पर नियंत्रण रखें, निवेश से बचें। | तुला: जीवनसाथी का सहयोग मिलेगा, संबंध मधुर होंगे। | वृश्चिक: शत्रुओं से सावधान रहें, विवाद से बचें। | धनु: शिक्षा के क्षेत्र में सफलता मिलेगी, नए अवसर मिलेंगे। | मकर: व्यापार में वृद्धि होगी, आर्थिक स्थिति मजबूत होगी। | कुंभ: मानसिक तनाव रहेगा, धैर्य बनाए रखें। | मीन: धार्मिक कार्यों में रुचि बढ़ेगी, यात्रा के योग हैं। ||
+        </div>
+    </div>
 
     <section class="hero">
         <div class="om-symbol">ॐ</div>
@@ -286,7 +335,8 @@
         
         <form action="https://formspree.io/f/mwvnpzla" method="POST" style="margin-top: 30px;">
             <input type="email" name="email" class="email-input" placeholder="Enter your email for Waitlist..." required>
-            <input type="hidden" name="project" value="Bhagya Aapka Waitlist"> <button type="submit" class="join-btn" style="margin-top: 0; margin-left: 10px;">JOIN LIST</button>
+            <input type="hidden" name="project" value="Bhagya Aapka Waitlist">
+            <button type="submit" class="join-btn" style="margin-top: 0; margin-left: 10px;">JOIN LIST</button>
         </form>
     </div>
 
