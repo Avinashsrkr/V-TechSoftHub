@@ -6,6 +6,7 @@
     <title>Bhagya Aapka | Authentic Vedic Astrology</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Gotu&family=Cinzel:wght@400;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         /* --- DYNAMIC THEME --- */
@@ -29,7 +30,7 @@
             transition: background 1.5s ease;
         }
 
-        /* --- BG ANIMATION --- */
+        /* --- BACKGROUND ANIMATION --- */
         .wave-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             pointer-events: none; opacity: 0.2;
@@ -63,12 +64,6 @@
         /* --- HERO FORM --- */
         .hero-section { margin-top: 160px; padding: 20px; text-align: center; min-height: 85vh; }
         
-        .accuracy-badge {
-            background: rgba(255, 215, 0, 0.1); border: 1px solid var(--secondary);
-            padding: 5px 15px; border-radius: 20px; color: var(--secondary);
-            font-family: var(--font-body); display: inline-block; margin-bottom: 15px;
-        }
-
         .form-box {
             background: rgba(0,0,0,0.85); border: 2px solid var(--secondary);
             padding: 30px; border-radius: 15px; max-width: 650px; margin: 0 auto;
@@ -111,11 +106,34 @@
             background: var(--card-bg); border: 1px solid var(--primary); padding: 20px;
             border-radius: 10px; text-align: left; position: relative;
         }
-        .info-card h3 { color: var(--secondary); border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 10px; font-family: var(--font-main); }
-        
-        .chart-box { width: 280px; height: 280px; border: 1px solid var(--primary); margin: 0 auto; background: #000; }
         .chart-svg { width: 100%; height: 100%; stroke: var(--primary); stroke-width: 1.2; }
         
+        /* --- GEMSTONE SECTION (NEW) --- */
+        .gemstone-box {
+            background: linear-gradient(to right, #200500, #000); border: 1px solid var(--secondary);
+            margin: 20px 5%; padding: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .gem-item { text-align: center; margin: 10px; }
+        .gem-icon { font-size: 2.5rem; margin-bottom: 5px; animation: glow 2s infinite alternate; }
+        @keyframes glow { from { text-shadow: 0 0 5px white; } to { text-shadow: 0 0 20px var(--primary); } }
+
+        /* --- FREE PDF DOWNLOAD BTN --- */
+        .pdf-btn {
+            background: #222; border: 1px solid #0f0; color: #0f0; padding: 10px 20px;
+            cursor: pointer; font-family: var(--font-body); margin-top: 15px; width: 100%;
+            transition: 0.3s;
+        }
+        .pdf-btn:hover { background: #0f0; color: #000; }
+
+        /* --- LOADING OVERLAY (For PDF) --- */
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95);
+            z-index: 5000; display: none; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .progress-bar { width: 300px; height: 5px; background: #333; margin-top: 20px; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: var(--primary); transition: width 0.1s; }
+
         /* --- MODULES GRID --- */
         .modules-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;
@@ -123,70 +141,43 @@
         }
         .module-card {
             background: rgba(20, 10, 0, 0.8); border: 1px solid #444; padding: 25px;
-            text-align: center; border-radius: 12px; cursor: pointer; transition: 0.3s;
+            text-align: center; border-radius: 12px; cursor: pointer; transition: 0.3s; position: relative;
         }
+        .module-card::after { content: '🔒 Premium'; position: absolute; top: 5px; right: 5px; font-size: 0.7rem; color: #aaa; }
         .module-card:hover { border-color: var(--secondary); transform: translateY(-5px); box-shadow: 0 0 15px var(--primary); }
-        .module-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
-        .module-title { font-family: var(--font-main); font-size: 1.2rem; color: var(--secondary); }
 
-        /* --- VIDEO BLANK --- */
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px 5%; }
-        .video-blank {
-            height: 200px; background: #111; border: 1px dashed #555;
-            display: flex; justify-content: center; align-items: center; color: #555;
-            border-radius: 10px; flex-direction: column;
+        /* --- PAYMENT MODAL --- */
+        .payment-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95);
+            z-index: 4000; display: none; justify-content: center; align-items: center;
         }
+        .payment-box {
+            background: #111; border: 2px solid var(--secondary); padding: 30px;
+            text-align: center; max-width: 400px; border-radius: 15px; position: relative;
+        }
+        .qr-placeholder { width: 200px; height: 200px; background: white; margin: 20px auto; display: flex; justify-content: center; align-items: center; color: black; font-weight: bold; }
 
-        /* --- AI CHAT SYSTEM (NEW) --- */
-        .chat-float {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-            background: var(--secondary); border-radius: 50%; display: flex;
+        /* --- FLOATING BUTTONS --- */
+        .float-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 2000; }
+        .float-btn {
+            width: 60px; height: 60px; border-radius: 50%; display: flex;
             justify-content: center; align-items: center; font-size: 30px;
-            cursor: pointer; box-shadow: 0 0 20px var(--primary); z-index: 2000;
-            animation: bounce 2s infinite; color: black; border: 2px solid #fff;
+            cursor: pointer; box-shadow: 0 0 20px rgba(0,0,0,0.8); transition: 0.3s; color: white;
         }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .ai-btn { background: var(--secondary); color: black; animation: bounce 2s infinite; }
+        .wa-btn { background: #25D366; }
+        .wa-btn:hover { transform: scale(1.1); }
 
+        /* AI CHAT WINDOW (Same as before) */
         .chat-window {
             position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px;
             background: #0f0500; border: 2px solid var(--secondary); border-radius: 15px;
             z-index: 2000; display: none; flex-direction: column; overflow: hidden;
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
         }
-        .chat-header {
-            background: linear-gradient(45deg, var(--primary), #000); padding: 15px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--secondary);
-        }
-        .chat-timer { font-family: var(--font-tech); color: #fff; font-weight: bold; background: red; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
-        .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 10px; border-radius: 8px; max-width: 80%; font-size: 0.9rem; }
-        .bot-msg { background: rgba(255, 153, 51, 0.2); color: var(--secondary); align-self: flex-start; border: 1px solid var(--primary); }
-        .user-msg { background: #333; color: white; align-self: flex-end; }
-        
+        .chat-header { background: linear-gradient(45deg, var(--primary), #000); padding: 15px; display: flex; justify-content: space-between; }
+        .chat-body { flex: 1; padding: 15px; overflow-y: auto; }
         .chat-footer { padding: 10px; background: #111; display: flex; gap: 5px; }
-        .chat-input { flex: 1; padding: 10px; background: #222; border: 1px solid #444; color: white; border-radius: 5px; outline: none; }
-        .chat-send { background: var(--secondary); border: none; padding: 0 15px; cursor: pointer; font-weight: bold; border-radius: 5px; }
-
-        /* LOCKED STATE (UPSHELL) */
-        .chat-locked {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); display: none; flex-direction: column;
-            align-items: center; justify-content: center; text-align: center; padding: 20px;
-        }
-        .guru-upsell-card {
-            background: #220a00; border: 1px solid var(--gold); padding: 15px;
-            margin-top: 15px; width: 100%; border-radius: 8px; cursor: pointer;
-        }
-        .guru-upsell-card:hover { background: var(--primary); color: black; }
-
-        /* --- REGISTRATION FORM --- */
-        .reg-section {
-            background: linear-gradient(to right, #1a0500, #2e0e00);
-            padding: 50px 20px; margin-top: 50px; border-top: 2px solid var(--secondary);
-            text-align: center;
-        }
-        .reg-form { max-width: 600px; margin: 20px auto; display: grid; gap: 10px; }
+        .chat-input { flex: 1; padding: 10px; background: #222; border: 1px solid #444; color: white; }
 
         /* --- FOOTER --- */
         footer { background: #000; padding: 30px; text-align: center; border-top: 1px solid #333; color: #666; }
@@ -198,38 +189,48 @@
 
     <div class="wave-bg" id="waveContainer"></div>
     
-    <div class="chat-float" onclick="toggleChat()">🤖</div>
+    <div class="float-container">
+        <a href="https://wa.me/918602513483" target="_blank" class="float-btn wa-btn"><i class="fab fa-whatsapp"></i></a>
+        <div class="float-btn ai-btn" onclick="toggleChat()">🤖</div>
+    </div>
 
     <div class="chat-window" id="aiChatBox">
         <div class="chat-header">
             <span style="color:var(--secondary); font-family:var(--font-main);">AI वेद (Veda)</span>
-            <span id="chatTimer" class="chat-timer">50s</span>
+            <span id="chatTimer" style="background:red; padding:2px 8px; border-radius:4px; font-size:0.8rem;">50s</span>
             <span onclick="toggleChat()" style="cursor:pointer; color:#fff;">×</span>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="msg bot-msg">हरि ॐ! मैं आपका AI ज्योतिष मित्र हूँ। आप मुझसे कोई एक प्रश्न पूछ सकते हैं (विवाह, धन, करियर)। समय सीमित है।</div>
+            <div style="background:rgba(255,153,51,0.2); padding:10px; border-radius:5px; border:1px solid var(--primary); color:var(--secondary);">
+                हरि ॐ! मैं आपका AI ज्योतिष मित्र हूँ। 50 सेकंड में अपना प्रश्न पूछें।
+            </div>
         </div>
         <div class="chat-footer" id="chatInputArea">
             <input type="text" id="userMsg" class="chat-input" placeholder="Ask here...">
-            <button class="chat-send" onclick="sendMessage()">➤</button>
+            <button onclick="sendMessage()" style="background:var(--secondary); border:none; padding:0 15px;">➤</button>
         </div>
+    </div>
 
-        <div class="chat-locked" id="chatLockedOverlay">
-            <div style="font-size:3rem;">🔒</div>
-            <h3 style="color:var(--secondary); font-family:var(--font-main);">Free Session Ended</h3>
-            <p style="color:#ccc; font-size:0.9rem;">गहन विश्लेषण के लिए हमारे सिद्ध गुरुओं से संपर्क करें:</p>
+    <div class="loading-overlay" id="pdfLoader">
+        <div style="font-size:3rem; color:var(--secondary); margin-bottom:20px;">📜</div>
+        <h2 style="color:var(--primary); font-family:var(--font-main);">Generating KP Kundli...</h2>
+        <p id="loadingText" style="color:#ccc;">Calculating Planetary Degrees...</p>
+        <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    </div>
+
+    <div class="payment-modal" id="paymentModal">
+        <div class="payment-box">
+            <span onclick="document.getElementById('paymentModal').style.display='none'" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:1.5rem; color:red;">×</span>
+            <h3 style="color:var(--gold);">PREMIUM REPORT DAKSHINA</h3>
+            <p style="color:#ccc;">Unlock detailed analysis for <span id="payServiceName" style="color:var(--primary);">Service</span></p>
             
-            <div class="guru-upsell-card">
-                <div style="font-weight:bold; color:var(--secondary);">आचार्य उज्ज्वल तिवारी</div>
-                <div style="font-size:0.8rem; color:#ccc;">वैदिक विशेषज्ञ | काशी</div>
-                <div style="background:#fff; color:#000; display:inline-block; padding:2px 8px; border-radius:4px; margin-top:5px; font-weight:bold;">₹ 501 / 15 min</div>
+            <div class="qr-placeholder">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=8602513483@upi&pn=VTechSoft" alt="UPI QR">
             </div>
-
-            <div class="guru-upsell-card">
-                <div style="font-weight:bold; color:var(--secondary);">डॉ. ए. के. मिश्रा</div>
-                <div style="font-size:0.8rem; color:#ccc;">नाड़ी ज्योतिष | 22 वर्ष अनुभव</div>
-                <div style="background:#fff; color:#000; display:inline-block; padding:2px 8px; border-radius:4px; margin-top:5px; font-weight:bold;">₹ 1100 / 30 min</div>
-            </div>
+            <p style="color:var(--secondary);">Amount: ₹ 501/-</p>
+            
+            <input type="text" class="input-field" placeholder="Enter Transaction ID" style="margin-top:15px;">
+            <button class="btn-generate" onclick="alert('Payment Verified! Report sent to Email.')" style="margin-top:10px; width:100%;">VERIFY & DOWNLOAD</button>
         </div>
     </div>
 
@@ -268,24 +269,38 @@
         <div class="user-header">
             <h2 id="userNameDisplay" style="color:var(--secondary); font-family:var(--font-main);">नमस्ते, जातक</h2>
             <p id="rashiDisplay" style="color:var(--primary); font-size:1.2rem;">राशि: --</p>
-            <p class="source-cite">Calculation Engine: Brihat Samhita Algorithms</p>
+        </div>
+
+        <div class="gemstone-box" id="gemSection">
+            <div class="gem-item">
+                <div class="gem-icon">💎</div>
+                <h4 style="color:var(--secondary);">भाग्य रत्न (Gemstone)</h4>
+                <p id="gemName" style="color:#ccc;">--</p>
+            </div>
+            <div class="gem-item">
+                <div class="gem-icon">📿</div>
+                <h4 style="color:var(--secondary);">रुद्राक्ष (Rudraksha)</h4>
+                <p id="rudrakshaName" style="color:#ccc;">--</p>
+            </div>
+            <div class="gem-item">
+                <div class="gem-icon">🎨</div>
+                <h4 style="color:var(--secondary);">शुभ रंग (Lucky Color)</h4>
+                <p id="luckyColor" style="color:#ccc;">--</p>
+            </div>
         </div>
 
         <div class="panchang-horoscope-grid">
             <div class="info-card" style="text-align:center;">
                 <h3>लग्न कुंडली (D1 Chart)</h3>
-                <div class="chart-box">
-                    <svg class="chart-svg" viewBox="0 0 100 100">
-                        <rect x="0" y="0" width="100" height="100" fill="none"/>
-                        <line x1="0" y1="0" x2="100" y2="100" /><line x1="100" y1="0" x2="0" y2="100" />
-                        <line x1="50" y1="0" x2="0" y2="50" /><line x1="50" y1="0" x2="100" y2="50" />
-                        <line x1="0" y1="50" x2="50" y2="100" /><line x1="100" y1="50" x2="50" y2="100" />
-                        <text x="50" y="25" fill="var(--secondary)" font-size="0.6rem" text-anchor="middle">सूर्य</text>
-                        <text x="25" y="45" fill="var(--secondary)" font-size="0.6rem" text-anchor="middle">चन्द्र</text>
-                        <text x="75" y="45" fill="var(--secondary)" font-size="0.6rem" text-anchor="middle">मंगल</text>
-                        <text x="50" y="80" fill="var(--secondary)" font-size="0.6rem" text-anchor="middle">शनि</text>
+                <div style="width:200px; height:200px; border:1px solid var(--primary); margin:0 auto; background:#000;">
+                    <svg width="100%" height="100%" viewBox="0 0 100 100">
+                        <rect x="0" y="0" width="100" height="100" fill="none" stroke="var(--primary)"/>
+                        <line x1="0" y1="0" x2="100" y2="100" stroke="var(--primary)"/><line x1="100" y1="0" x2="0" y2="100" stroke="var(--primary)"/>
+                        <line x1="50" y1="0" x2="0" y2="50" stroke="var(--primary)"/><line x1="50" y1="0" x2="100" y2="50" stroke="var(--primary)"/>
+                        <line x1="0" y1="50" x2="50" y2="100" stroke="var(--primary)"/><line x1="100" y1="50" x2="50" y2="100" stroke="var(--primary)"/>
                     </svg>
                 </div>
+                <button class="pdf-btn" onclick="downloadFreePDF()"><i class="fas fa-file-pdf"></i> Download 3-Page Free Kundli</button>
             </div>
             <div class="info-card">
                 <h3>आज का पंचांग (Live)</h3>
@@ -294,123 +309,36 @@
                     <li>⭐ <strong>नक्षत्र:</strong> उत्तराषाढ़ा</li>
                     <li>🧘 <strong>योग:</strong> सिद्धि</li>
                     <li>🌙 <strong>पक्ष:</strong> शुक्ल पक्ष</li>
-                    <li>☀️ <strong>सूर्योदय:</strong> 06:15 AM</li>
                 </ul>
             </div>
-            <div class="info-card">
-                <h3>दैनिक राशिफल (Daily)</h3>
-                <p style="color:#ccc; line-height:1.6; margin-bottom:15px;">
-                    आज चंद्रमा और गुरु की युति से 'गजकेसरी योग' बन रहा है। 
-                    कार्यक्षेत्र में मान-सम्मान मिलेगा। पुराने निवेश से लाभ होगा।
-                </p>
-                <div style="background:#111; padding:10px; color:var(--secondary);">
-                    लकी नंबर: 3 | शुभ रंग: पीला (Yellow)
-                </div>
-            </div>
         </div>
 
-        <h2 style="text-align:center; color:var(--secondary); font-family:var(--font-main); margin:40px 0;">/// विशिष्ट सेवाएं (All Services)</h2>
+        <h2 style="text-align:center; color:var(--secondary); font-family:var(--font-main); margin:40px 0;">/// विशिष्ट सेवाएं (Premium Services)</h2>
         <div class="modules-grid" id="modulesArea">
-            <div class="module-card"><div class="module-icon">✨</div><div class="module-title">वैदिक कुंडली</div></div>
-            <div class="module-card"><div class="module-icon">❤️</div><div class="module-title">कुंडली मिलान</div></div>
-            <div class="module-card"><div class="module-icon">🃏</div><div class="module-title">टैरो कार्ड</div></div>
-            <div class="module-card"><div class="module-icon">🔢</div><div class="module-title">अंक ज्योतिष</div></div>
-            <div class="module-card"><div class="module-icon">📕</div><div class="module-title">लाल किताब</div></div>
-            <div class="module-card"><div class="module-icon">✋</div><div class="module-title">हस्तरेखा</div></div>
-            <div class="module-card"><div class="module-icon">🏠</div><div class="module-title">वास्तु दोष</div></div>
-            <div class="module-card"><div class="module-icon">🕉️</div><div class="module-title">दोष निवारण</div></div>
-        </div>
-
-        <h2 style="text-align:center; color:var(--primary); font-family:var(--font-main); margin:50px 0 30px;">📺 ज्योतिष ज्ञान (Video Gallery)</h2>
-        <div class="video-grid">
-            <div class="video-blank"><div style="font-size:2rem; margin-bottom:10px;">▶️</div><div>Weekly Horoscope</div></div>
-            <div class="video-blank"><div style="font-size:2rem; margin-bottom:10px;">▶️</div><div>Kaal Sarp Dosh Upay</div></div>
-            <div class="video-blank"><div style="font-size:2rem; margin-bottom:10px;">▶️</div><div>Vastu Shastra Tips</div></div>
+            <div class="module-card" onclick="openPayment('Vedic Kundli')"><div class="module-icon">✨</div><div class="module-title">वैदिक कुंडली</div></div>
+            <div class="module-card" onclick="openPayment('Kundli Milan')"><div class="module-icon">❤️</div><div class="module-title">कुंडली मिलान</div></div>
+            <div class="module-card" onclick="openPayment('Tarot Card')"><div class="module-icon">🃏</div><div class="module-title">टैरो कार्ड</div></div>
+            <div class="module-card" onclick="openPayment('Numerology')"><div class="module-icon">🔢</div><div class="module-title">अंक ज्योतिष</div></div>
+            <div class="module-card" onclick="openPayment('Lal Kitab')"><div class="module-icon">📕</div><div class="module-title">लाल किताब</div></div>
+            <div class="module-card" onclick="openPayment('Palmistry')"><div class="module-icon">✋</div><div class="module-title">हस्तरेखा</div></div>
         </div>
     </div>
 
     <div class="reg-section">
-        <h2 style="color:var(--secondary); font-family:var(--font-main);">ज्योतिष पंजीकरण (Astrologer Registration)</h2>
-        <p style="color:#ccc; margin-bottom:20px;">Join India's Largest Vedic Platform</p>
+        <h2 style="color:var(--secondary); font-family:var(--font-main);">ज्योतिष पंजीकरण</h2>
         <form action="https://formspree.io/f/mwvnpzla" method="POST" class="reg-form">
             <input type="text" name="guru_name" class="input-field" placeholder="Full Name">
-            <input type="text" name="experience" class="input-field" placeholder="Experience">
             <input type="email" name="email" class="input-field" placeholder="Email">
             <button class="btn-generate">REGISTER NOW</button>
         </form>
     </div>
 
     <footer>
-        <p>&copy; 2026 Bhagya Aapka. All Rights Reserved.</p>
-        <p style="font-size:0.8rem; margin-top:10px;">Data Sources: Brihat Samhita & National Almanac</p>
+        <p>&copy; 2026 Bhagya Aapka. Data Sources: Brihat Samhita & Hora Shatak.</p>
     </footer>
 
     <script>
-       // 1. CHAT BOT LOGIC (50 Sec Timer)
-        let chatTimer = 50;
-        let chatInterval;
-        let isChatOpen = false;
-
-        function toggleChat() {
-            const chatBox = document.getElementById('aiChatBox');
-            if (!isChatOpen) {
-                chatBox.style.display = 'flex';
-                isChatOpen = true;
-                if(chatTimer === 50) startTimer(); // Only start if first time
-            } else {
-                chatBox.style.display = 'none';
-                isChatOpen = false;
-            }
-        }
-
-        function startTimer() {
-            chatInterval = setInterval(() => {
-                chatTimer--;
-                document.getElementById('chatTimer').innerText = chatTimer + 's';
-                if (chatTimer <= 0) {
-                    clearInterval(chatInterval);
-                    lockChat();
-                }
-            }, 1000);
-        }
-
-        function lockChat() {
-            document.getElementById('chatLockedOverlay').style.display = 'flex';
-            document.getElementById('chatInputArea').style.display = 'none';
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('userMsg');
-            const txt = input.value.trim();
-            if(!txt) return;
-
-            // Add User Msg
-            const body = document.getElementById('chatBody');
-            body.innerHTML += `<div class="msg user-msg">${txt}</div>`;
-            input.value = "";
-            body.scrollTop = body.scrollHeight;
-
-            // AI Simulated Response
-            setTimeout(() => {
-                let reply = "ग्रहों की स्थिति का अध्ययन कर रहा हूँ...";
-                if(txt.toLowerCase().includes("marriage") || txt.includes("शादी")) reply = "सप्तम भाव में गुरु की दृष्टि विवाह के लिए शुभ संकेत दे रही है।";
-                else if(txt.toLowerCase().includes("money") || txt.includes("धन")) reply = "द्वितीय भाव (धन) में बुध का गोचर आर्थिक लाभ कराएगा।";
-                else if(txt.toLowerCase().includes("career") || txt.includes("job")) reply = "दशम भाव (कर्म) प्रबल है। नए अवसर जल्द मिलेंगे।";
-                
-                body.innerHTML += `<div class="msg bot-msg">${reply}</div>`;
-                body.scrollTop = body.scrollHeight;
-            }, 1500);
-        }
-
-        // 2. LIVE PANCHANG
-        function updatePanchang() {
-            const today = new Date();
-            const dateStr = today.toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('liveMarquee').innerText = `|| ॐ नमः शिवाय || आज: ${dateStr} | तिथि: शुक्ल दशमी | राहुकाल: 15:00-16:30 | शुभ रंग: केसरिया ||`;
-            document.getElementById('panchangDate').innerText = dateStr;
-        }
-
-        // 3. BACKGROUND
+        // 1. BG WAVE
         const container = document.getElementById('waveContainer');
         const symbols = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','ॐ','卐'];
         for(let i=0; i<30; i++) {
@@ -423,8 +351,16 @@
             container.appendChild(el);
         }
 
-        // 4. CITY SEARCH
-        const locations = ["Mumbai", "Delhi", "Varanasi", "Patna", "Rampur", "Sonpur", "Bhopal", "Indore", "Raipur", "Kashi", "Ayodhya", "Pune", "Nagpur", "Jaipur", "Lucknow", "Kanpur", "Kolkata", "Chennai", "Bangalore", "Hyderabad", "Ahmedabad"];
+        // 2. LIVE PANCHANG
+        function updatePanchang() {
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('liveMarquee').innerText = `|| ॐ नमः शिवाय || आज: ${dateStr} | तिथि: शुक्ल दशमी | राहुकाल: 15:00-16:30 ||`;
+            document.getElementById('panchangDate').innerText = dateStr;
+        }
+
+          // 3. CITY SEARCH
+        const locations = ["Mumbai", "Delhi", "Varanasi", "Patna", "Rampur", "Bhopal", "Indore", "Raipur", "Kashi", "Pune", "Jaipur", "Lucknow", "Kolkata", "Chennai", "Bangalore"];
         function searchCity() {
             let input = document.getElementById('cityInput').value.toLowerCase();
             let box = document.getElementById('cityList');
@@ -444,7 +380,7 @@
             } else { box.style.display = 'none'; }
         }
 
-        // 5. GENERATE
+        // 4. GENERATE REPORT & GEMSTONES
         function generateReport() {
             let name = document.getElementById('name').value;
             let dob = document.getElementById('dob').value;
@@ -453,10 +389,20 @@
             let date = new Date(dob);
             let month = date.getMonth() + 1;
             let colorMain = "", colorSec = "", rashi = "";
+            let gem = "", rudra = "", luckyCol = "";
 
-            if(month >= 3 && month <= 6) { colorMain = "#FF4500"; colorSec = "#FFD700"; rashi = "मेष (Aries)"; }
-            else if(month >= 7 && month <= 10) { colorMain = "#2E8B57"; colorSec = "#F4A460"; rashi = "कन्या (Virgo)"; }
-            else { colorMain = "#00BFFF"; colorSec = "#E0FFFF"; rashi = "कुंभ (Aquarius)"; }
+            if(month >= 3 && month <= 6) { 
+                rashi = "मेष (Aries)"; colorMain = "#FF4500"; colorSec = "#FFD700"; 
+                gem = "मूँगा (Red Coral)"; rudra = "3 मुखी"; luckyCol = "लाल (Red)";
+            }
+            else if(month >= 7 && month <= 10) { 
+                rashi = "कन्या (Virgo)"; colorMain = "#2E8B57"; colorSec = "#F4A460"; 
+                gem = "पन्ना (Emerald)"; rudra = "4 मुखी"; luckyCol = "हरा (Green)";
+            }
+            else { 
+                rashi = "कुंभ (Aquarius)"; colorMain = "#00BFFF"; colorSec = "#E0FFFF"; 
+                gem = "नीलम (Blue Sapphire)"; rudra = "7 मुखी"; luckyCol = "नीला (Blue)";
+            }
 
             document.documentElement.style.setProperty('--primary', colorMain);
             document.documentElement.style.setProperty('--secondary', colorSec);
@@ -465,12 +411,75 @@
             document.getElementById('dashboardArea').style.display = 'block';
             document.getElementById('userNameDisplay').innerText = `नमस्ते, ${name}`;
             document.getElementById('rashiDisplay').innerText = `राशि: ${rashi}`;
+            
+            // Set Gemstones
+            document.getElementById('gemName').innerText = gem;
+            document.getElementById('rudrakshaName').innerText = rudra;
+            document.getElementById('luckyColor').innerText = luckyCol;
+
             document.getElementById('modulesArea').style.opacity = '1';
             document.getElementById('modulesArea').style.pointerEvents = 'all';
             document.getElementById('dashboardArea').scrollIntoView();
         }
 
-        // 6. TRANSLATE
+        // 5. FREE PDF DOWNLOAD SIMULATION
+        function downloadFreePDF() {
+            document.getElementById('pdfLoader').style.display = 'flex';
+            let width = 0;
+            let elem = document.getElementById("progFill");
+            let text = document.getElementById("loadingText");
+            let id = setInterval(frame, 50);
+            
+            function frame() {
+                if (width >= 100) {
+                    clearInterval(id);
+                    document.getElementById('pdfLoader').style.display = 'none';
+                    alert("PDF Downloaded Successfully! (Check Downloads Folder)");
+                } else {
+                    width++; 
+                    elem.style.width = width + '%'; 
+                    if(width < 30) text.innerText = "Calculating Planetary Degrees...";
+                    else if(width < 60) text.innerText = "Generating D1 & D9 Charts...";
+                    else text.innerText = "Finalizing PDF Report...";
+                }
+            }
+        }
+
+        // 6. PAYMENT MODAL
+        function openPayment(service) {
+            document.getElementById('paymentModal').style.display = 'flex';
+            document.getElementById('payServiceName').innerText = service;
+        }
+
+        // 7. CHAT LOGIC
+        let chatTimer = 50; let chatInterval; let isChatOpen = false;
+        function toggleChat() {
+            const chatBox = document.getElementById('aiChatBox');
+            if (!isChatOpen) {
+                chatBox.style.display = 'flex'; isChatOpen = true;
+                if(chatTimer === 50) startTimer();
+            } else { chatBox.style.display = 'none'; isChatOpen = false; }
+        }
+        function startTimer() {
+            chatInterval = setInterval(() => {
+                chatTimer--; document.getElementById('chatTimer').innerText = chatTimer + 's';
+                if (chatTimer <= 0) { clearInterval(chatInterval); alert("Free Session Ended. Contact Guru for more."); toggleChat(); }
+            }, 1000);
+        }
+        function sendMessage() {
+            let msg = document.getElementById('userMsg').value;
+            if(msg) {
+                let body = document.getElementById('chatBody');
+                body.innerHTML += `<div style="background:#333; padding:5px; margin:5px 0; text-align:right; border-radius:5px;">${msg}</div>`;
+                document.getElementById('userMsg').value = "";
+                setTimeout(()=>{
+                    body.innerHTML += `<div style="background:rgba(255,153,51,0.2); padding:5px; margin:5px 0; border:1px solid var(--primary); border-radius:5px;">ग्रहों की स्थिति का अध्ययन कर रहा हूँ...</div>`;
+                    body.scrollTop = body.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        // 8. TRANSLATE
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'hi,mr,bn,gu,ta,te', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
         }
